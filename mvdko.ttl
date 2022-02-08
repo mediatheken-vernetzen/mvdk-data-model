@@ -1,0 +1,540 @@
+@prefix : <http://mvdk.digital/schema/mvdko/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://mvdk.digital/schema/mvdko/> .
+
+<http://mvdk.digital/schema/mvdko/> rdf:type owl:Ontology ;
+                                     owl:versionIRI : ;
+                                     owl:imports <http://www.w3.org/2004/02/skos/core> ;
+                                     rdfs:comment """Intern verwendetes Datenmodell für das \"Mediatheken der Darstellenden Kunst digital vernetzen\" Projekt.
+
+In aktiver Bearbeitung."""@de .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://mvdk.digital/schema/mvdko/hasContributor
+:hasContributor rdf:type owl:ObjectProperty ;
+                rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/hasCreator
+:hasCreator rdf:type owl:ObjectProperty ;
+            rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/hasDate
+:hasDate rdf:type owl:ObjectProperty ;
+         rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/hasEvent
+:hasEvent rdf:type owl:ObjectProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/hasFunction
+:hasFunction rdf:type owl:ObjectProperty ;
+             rdfs:label "has Function"@en ,
+                        "hat Funktion"@de .
+
+
+###  http://mvdk.digital/schema/mvdko/hasIdentifier
+:hasIdentifier rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/hasKeyword
+:hasKeyword rdf:type owl:ObjectProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/hasLanguage
+:hasLanguage rdf:type owl:ObjectProperty ;
+             rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/hasLocation
+:hasLocation rdf:type owl:ObjectProperty ;
+             rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/hasLocationOfPublication
+:hasLocationOfPublication rdf:type owl:ObjectProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/hasMediaCarrier
+:hasMediaCarrier rdf:type owl:ObjectProperty ;
+                 rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/hasMedium
+:hasMedium rdf:type owl:ObjectProperty ;
+           rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/hasMediumChannel
+:hasMediumChannel rdf:type owl:ObjectProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/hasMediumDate
+:hasMediumDate rdf:type owl:ObjectProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/hasMediumEncoding
+:hasMediumEncoding rdf:type owl:ObjectProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/hasMediumRegionalCode
+:hasMediumRegionalCode rdf:type owl:ObjectProperty ;
+                       rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/hasMediumTelevisionStandard
+:hasMediumTelevisionStandard rdf:type owl:ObjectProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/hasPart
+:hasPart rdf:type owl:ObjectProperty ;
+         rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/hasPlaceOfOccurrence
+:hasPlaceOfOccurrence rdf:type owl:ObjectProperty ;
+                      rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/hasPlaceOfResidence
+:hasPlaceOfResidence rdf:type owl:ObjectProperty ;
+                     rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/hasRecordingOf
+:hasRecordingOf rdf:type owl:ObjectProperty ;
+                rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/hasRelatedPlace
+:hasRelatedPlace rdf:type owl:ObjectProperty ;
+                 rdfs:subPropertyOf owl:topObjectProperty ;
+                 rdfs:label "has related Place"@en ,
+                            "hat zugehörigen Ort"@de .
+
+
+###  http://mvdk.digital/schema/mvdko/hasRights
+:hasRights rdf:type owl:ObjectProperty ;
+           rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/hasRightsHolder
+:hasRightsHolder rdf:type owl:ObjectProperty ;
+                 rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/hasRole
+:hasRole rdf:type owl:ObjectProperty ;
+         rdfs:subPropertyOf owl:topObjectProperty ;
+         rdfs:label "has Role"@en ,
+                    "hat Rolle"@de .
+
+
+###  http://mvdk.digital/schema/mvdko/hasSource
+:hasSource rdf:type owl:ObjectProperty ;
+           rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/hasSubject
+:hasSubject rdf:type owl:ObjectProperty ;
+            rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/hasTemporalExtent
+:hasTemporalExtent rdf:type owl:ObjectProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/hasType
+:hasType rdf:type owl:ObjectProperty ;
+         rdfs:subPropertyOf owl:topObjectProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/hasVersion
+:hasVersion rdf:type owl:ObjectProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/isBasedOn
+:isBasedOn rdf:type owl:ObjectProperty ;
+           rdfs:subPropertyOf owl:topObjectProperty .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://mvdk.digital/schema/mvdko/hasAlternativeTitle
+:hasAlternativeTitle rdf:type owl:DatatypeProperty ;
+                     rdfs:comment "hat alternativen Titel" .
+
+
+###  http://mvdk.digital/schema/mvdko/hasBegin
+:hasBegin rdf:type owl:DatatypeProperty ;
+          rdfs:comment "hat Begin" .
+
+
+###  http://mvdk.digital/schema/mvdko/hasContributor
+:hasContributor rdf:type owl:DatatypeProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/hasCreator
+:hasCreator rdf:type owl:DatatypeProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/hasDate
+:hasDate rdf:type owl:DatatypeProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/hasDateOfPublication
+:hasDateOfPublication rdf:type owl:DatatypeProperty ;
+                      rdfs:comment "hat Veröffentlichungsdatum"@de .
+
+
+###  http://mvdk.digital/schema/mvdko/hasDescription
+:hasDescription rdf:type owl:DatatypeProperty ;
+                rdfs:comment "hat Beschreibung"@de .
+
+
+###  http://mvdk.digital/schema/mvdko/hasEnd
+:hasEnd rdf:type owl:DatatypeProperty ;
+        rdfs:comment "hat Ende"@de .
+
+
+###  http://mvdk.digital/schema/mvdko/hasEvent
+:hasEvent rdf:type owl:DatatypeProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/hasExtent
+:hasExtent rdf:type owl:DatatypeProperty ;
+           rdfs:comment "hat Umfang"@de .
+
+
+###  http://mvdk.digital/schema/mvdko/hasFamilyName
+:hasFamilyName rdf:type owl:DatatypeProperty ;
+               rdfs:comment "hat Familienname"@de .
+
+
+###  http://mvdk.digital/schema/mvdko/hasGivenName
+:hasGivenName rdf:type owl:DatatypeProperty ;
+              rdfs:comment "hat Rufname"@de .
+
+
+###  http://mvdk.digital/schema/mvdko/hasIdentifier
+:hasIdentifier rdf:type owl:DatatypeProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/hasKeyword
+:hasKeyword rdf:type owl:DatatypeProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/hasLanguage
+:hasLanguage rdf:type owl:DatatypeProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/hasLocation
+:hasLocation rdf:type owl:DatatypeProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/hasLocationOfPublication
+:hasLocationOfPublication rdf:type owl:DatatypeProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/hasMediaCarrier
+:hasMediaCarrier rdf:type owl:DatatypeProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/hasMedium
+:hasMedium rdf:type owl:DatatypeProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/hasMediumChannel
+:hasMediumChannel rdf:type owl:DatatypeProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/hasMediumDate
+:hasMediumDate rdf:type owl:DatatypeProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/hasMediumEncoding
+:hasMediumEncoding rdf:type owl:DatatypeProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/hasMediumLength
+:hasMediumLength rdf:type owl:DatatypeProperty ;
+                 rdfs:comment "Könnte diese Property ohne Verlust mit :hasTemporalExtent ersetzt werden (ursprünglich angedacht, existiert bereits)? , MW" .
+
+
+###  http://mvdk.digital/schema/mvdko/hasMediumRegionalCode
+:hasMediumRegionalCode rdf:type owl:DatatypeProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/hasMediumTelevisionStandard
+:hasMediumTelevisionStandard rdf:type owl:DatatypeProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/hasName
+:hasName rdf:type owl:DatatypeProperty ;
+         rdfs:comment "hat Name" .
+
+
+###  http://mvdk.digital/schema/mvdko/hasPart
+:hasPart rdf:type owl:DatatypeProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/hasPlaceOfOccurrence
+:hasPlaceOfOccurrence rdf:type owl:DatatypeProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/hasPlaceOfResidence
+:hasPlaceOfResidence rdf:type owl:DatatypeProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/hasPyhsicalExtent
+:hasPyhsicalExtent rdf:type owl:DatatypeProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/hasRecordingOf
+:hasRecordingOf rdf:type owl:DatatypeProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/hasRights
+:hasRights rdf:type owl:DatatypeProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/hasRightsHolder
+:hasRightsHolder rdf:type owl:DatatypeProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/hasSource
+:hasSource rdf:type owl:DatatypeProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/hasSubject
+:hasSubject rdf:type owl:DatatypeProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/hasSubtitle
+:hasSubtitle rdf:type owl:DatatypeProperty ;
+             rdfs:comment "Label ist zu diskutieren. Wie trennen wir Untertitel im Video von \"Untertitel\" als zweiter untergeordneter \"Titel\""@de ,
+                          "hat Untertitel" .
+
+
+###  http://mvdk.digital/schema/mvdko/hasTemporalExtent
+:hasTemporalExtent rdf:type owl:DatatypeProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/hasTitle
+:hasTitle rdf:type owl:DatatypeProperty ;
+          rdfs:comment "hat Titel"@de .
+
+
+###  http://mvdk.digital/schema/mvdko/hasType
+:hasType rdf:type owl:DatatypeProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/hasVersion
+:hasVersion rdf:type owl:DatatypeProperty .
+
+
+###  http://mvdk.digital/schema/mvdko/isBasedOn
+:isBasedOn rdf:type owl:DatatypeProperty .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://mvdk.digital/schema/mvdko/Agent
+:Agent rdf:type owl:Class ;
+       rdfs:label "Agent"@en ,
+                  "Akteur*in"@de .
+
+
+###  http://mvdk.digital/schema/mvdko/CreativeConcept
+:CreativeConcept rdf:type owl:Class ;
+                 rdfs:label "Creative Concept"@en ,
+                            "Kreatives Konzept"@de ;
+                 <http://www.w3.org/2004/02/skos/core#definition> "Klasse für verschiedene Formen von künstlerischen und/oder kreativen Konzepten wie klassischen Schriftwerken, Bühnenwerken, Inszenierungen, Produktionen, Performancekonzepten, etc. im Rahmen der Domäne der Darstellenden Künste."@de .
+
+
+###  http://mvdk.digital/schema/mvdko/Event
+:Event rdf:type owl:Class ;
+       rdfs:label "Ereignis"@de ,
+                  "Event"@en .
+
+
+###  http://mvdk.digital/schema/mvdko/Location
+:Location rdf:type owl:Class ;
+          rdfs:label "Ort"@de .
+
+
+###  http://mvdk.digital/schema/mvdko/MediaCarrier
+:MediaCarrier rdf:type owl:Class ;
+              rdfs:label "Media Carrier"@en ,
+                         "Medienträger"@de .
+
+
+###  http://mvdk.digital/schema/mvdko/MediaResource
+:MediaResource rdf:type owl:Class ;
+               rdfs:label "Media Resource"@en ,
+                          "Medienressource"@de .
+
+
+###  http://mvdk.digital/schema/mvdko/Organization
+:Organization rdf:type owl:Class ;
+              rdfs:subClassOf :Agent ;
+              rdfs:label "Organisation"@de ,
+                         "Organization"@en .
+
+
+###  http://mvdk.digital/schema/mvdko/Person
+:Person rdf:type owl:Class ;
+        rdfs:subClassOf :Agent ;
+        rdfs:label "Person"@de ,
+                   "Person"@en .
+
+
+###  http://mvdk.digital/schema/mvdko/RightsStatement
+:RightsStatement rdf:type owl:Class ;
+                 rdfs:label "Rechteangabe"@de ,
+                            "Rights Statement"@en .
+
+
+###  http://mvdk.digital/schema/mvdko/TimeSpan
+:TimeSpan rdf:type owl:Class ;
+          rdfs:label "Timespan"@en ,
+                     "Zeitraum"@de .
+
+
+#################################################################
+#    Annotations
+#################################################################
+
+:hasContributor rdfs:label "has Contributor"@en ,
+                           "hat Mitwirkende*n"@de .
+
+
+:hasCreator rdfs:label "hat Schöpfer*in"@de ,
+                       "has Creator"@en .
+
+
+:hasDate rdfs:label "has Date Information"@en ,
+                    "hat Datumsangabe"@de .
+
+
+:hasEvent rdfs:label "hat zugehöriges Ereignis"@de ,
+                     "has corresponding Event"@en .
+
+
+:hasIdentifier rdfs:label "hat Identififier"@de ,
+                          "has Identifier"@en .
+
+
+:hasKeyword rdfs:label "hat Schlagwort"@de ,
+                       "has Keyword"@en .
+
+
+:hasLanguage rdfs:label "hat Sprache"@de ,
+                        "has Language"@en .
+
+
+:hasLocation rdfs:label "has Location"@en ,
+                        "hat Ort"@de .
+
+
+:hasLocationOfPublication rdfs:label "hat Veröffentlichungsort"@de ,
+                                     "has Location of Publication"@en .
+
+
+:hasMediaCarrier rdfs:label "has Media Carrier"@en ,
+                            "hat Medienträger"@de .
+
+
+:hasMedium rdfs:label "hat Medium"@de ,
+                      "has Medium"@en .
+
+
+:hasMediumChannel rdfs:label "has Publication Channel"@en ,
+                             "hat Ausstrahlungskanal/Sender"@de ;
+                  rdfs:comment """vllt. besser hasDistributionChannel (hasChannel könnte sich auch auf Audioinformationen beziehen), MW
+
+hasAudioChannels/hasAudioChannelLayout und hasAudioTrack wären möglicherweise auch zu bedenken (wenn auch bisher nicht in Daten zu finden), MW""" .
+
+
+:hasMediumDate rdfs:comment "Als Subproperty von hasDate denkbar. MW" ,
+                            "Könnte diese Proeprty durch hasDate ersetzt werden?, MW" .
+
+
+:hasMediumEncoding rdfs:label "has Encoding Format"@en ;
+                   rdfs:comment "hasEncoding hier ausreichend?, MW" ;
+                   rdfs:label "hat Encodierungsformat"@de .
+
+
+:hasMediumRegionalCode rdfs:comment "hasRegionalCode hier ausreichend?, MW" ;
+                       rdfs:label "hat Regionalcode (DVD)"@de ,
+                                  "has Regional Code (DVD)"@en .
+
+
+:hasMediumTelevisionStandard rdfs:label "has Television Standard"@en ,
+                                        "hat TV-Standard"@de ;
+                             rdfs:comment "hasTelevisionStandard hier ausreichend?, MW" .
+
+
+:hasPart rdfs:label "has Part"@en ,
+                    "hat Teil"@de .
+
+
+:hasPlaceOfOccurrence rdfs:label "has Place of Occurrence"@en ,
+                                 "hat Ereignisort"@de .
+
+
+:hasPlaceOfResidence rdfs:label "hat Residenzort"@de ,
+                                "has Place of Residence"@en .
+
+
+:hasRecordingOf rdfs:label "hat Aufzeichnung von"@de ,
+                           "has a Recording of"@en .
+
+
+:hasRights rdfs:label "hat Rechteangabe"@de ,
+                      "has rights information"@en .
+
+
+:hasRightsHolder rdfs:label "hat Rechteinhaber"@de ,
+                            "has rights holder"@en .
+
+
+:hasSource rdfs:label "hat Quelle"@de ,
+                      "has Source"@en .
+
+
+:hasSubject rdfs:label "has Subject"@en ,
+                       "hat Thema/Gegenstand"@de .
+
+
+:hasTemporalExtent rdfs:label "has temporal Extent"@en ,
+                              "hat zeitlichen Umfang"@de .
+
+
+:hasType rdfs:label "has Type"@en ,
+                    "hat Typ"@de .
+
+
+:hasVersion rdfs:label "has Version"@en ,
+                       "hat Version"@de .
+
+
+:isBasedOn rdfs:label "is Based on"@en ,
+                      "ist basiert auf"@de .
+
+
+###  Generated by the OWL API (version 4.2.8.20170104-2310) https://github.com/owlcs/owlapi
