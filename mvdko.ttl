@@ -19,153 +19,349 @@ In aktiver Bearbeitung."""@de .
 
 ###  https://mvdk.digital/schema/mvdko/hasContributor
 :hasContributor rdf:type owl:ObjectProperty ;
-                rdfs:subPropertyOf owl:topObjectProperty .
+                owl:inverseOf :isContributorOf .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasCreator
 :hasCreator rdf:type owl:ObjectProperty ;
-            rdfs:subPropertyOf owl:topObjectProperty .
+            owl:inverseOf :isCreatorOf .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasDate
 :hasDate rdf:type owl:ObjectProperty ;
-         rdfs:subPropertyOf owl:topObjectProperty .
+         owl:inverseOf :isDateOf .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasEvent
-:hasEvent rdf:type owl:ObjectProperty .
+:hasEvent rdf:type owl:ObjectProperty ;
+          owl:inverseOf :isEventOf .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasFunction
 :hasFunction rdf:type owl:ObjectProperty ;
+             owl:inverseOf :isFunctionOf ;
              rdfs:label "has Function"@en ,
                         "hat Funktion"@de .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasIdentifier
 :hasIdentifier rdf:type owl:ObjectProperty ;
-               rdfs:subPropertyOf owl:topObjectProperty .
+               owl:inverseOf :isIdentifierOf .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasKeyword
-:hasKeyword rdf:type owl:ObjectProperty .
+:hasKeyword rdf:type owl:ObjectProperty ;
+            owl:inverseOf :hasKeyword .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasLanguage
 :hasLanguage rdf:type owl:ObjectProperty ;
-             rdfs:subPropertyOf owl:topObjectProperty .
+             owl:inverseOf :isLanguageOf .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasLocation
 :hasLocation rdf:type owl:ObjectProperty ;
-             rdfs:subPropertyOf owl:topObjectProperty .
+             owl:inverseOf :isLocationOf .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasLocationOfPublication
-:hasLocationOfPublication rdf:type owl:ObjectProperty .
+:hasLocationOfPublication rdf:type owl:ObjectProperty ;
+                          owl:inverseOf :isLocationOfPublicationOf .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasMediaCarrier
 :hasMediaCarrier rdf:type owl:ObjectProperty ;
-                 rdfs:subPropertyOf owl:topObjectProperty .
+                 owl:inverseOf :isMediaCarrierOf .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasMedium
 :hasMedium rdf:type owl:ObjectProperty ;
-           rdfs:subPropertyOf owl:topObjectProperty .
+           owl:inverseOf :isMediumOf .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasMediumChannel
-:hasMediumChannel rdf:type owl:ObjectProperty .
+:hasMediumChannel rdf:type owl:ObjectProperty ;
+                  owl:inverseOf :isMediumChannelOf .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasMediumDate
-:hasMediumDate rdf:type owl:ObjectProperty .
+:hasMediumDate rdf:type owl:ObjectProperty ;
+               owl:inverseOf :isMediumDateOf .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasMediumEncoding
-:hasMediumEncoding rdf:type owl:ObjectProperty .
+:hasMediumEncoding rdf:type owl:ObjectProperty ;
+                   owl:inverseOf :isMediumEncodingOf .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasMediumRegionalCode
 :hasMediumRegionalCode rdf:type owl:ObjectProperty ;
-                       rdfs:subPropertyOf owl:topObjectProperty .
+                       owl:inverseOf :isMediumRegionalCodeOf .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasMediumTelevisionStandard
-:hasMediumTelevisionStandard rdf:type owl:ObjectProperty .
+:hasMediumTelevisionStandard rdf:type owl:ObjectProperty ;
+                             owl:inverseOf :isMediumTelevisionStandardOf .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasPart
 :hasPart rdf:type owl:ObjectProperty ;
-         rdfs:subPropertyOf owl:topObjectProperty .
+         owl:inverseOf :isPartOf .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasPlaceOfOccurrence
 :hasPlaceOfOccurrence rdf:type owl:ObjectProperty ;
-                      rdfs:subPropertyOf owl:topObjectProperty .
+                      owl:inverseOf :isPlaceOfOccurrenceOf .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasPlaceOfResidence
 :hasPlaceOfResidence rdf:type owl:ObjectProperty ;
-                     rdfs:subPropertyOf owl:topObjectProperty .
+                     owl:inverseOf :isPlaceOfResidenceOf .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasRecordingOf
 :hasRecordingOf rdf:type owl:ObjectProperty ;
-                rdfs:subPropertyOf owl:topObjectProperty .
+                owl:inverseOf :isRecordedIn .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasRelatedPlace
 :hasRelatedPlace rdf:type owl:ObjectProperty ;
-                 rdfs:subPropertyOf owl:topObjectProperty ;
+                 owl:inverseOf :isRelatedPlaceOf ;
                  rdfs:label "has related Place"@en ,
                             "hat zugehörigen Ort"@de .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasRights
 :hasRights rdf:type owl:ObjectProperty ;
-           rdfs:subPropertyOf owl:topObjectProperty .
+           owl:inverseOf :isRightsOf .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasRightsHolder
 :hasRightsHolder rdf:type owl:ObjectProperty ;
-                 rdfs:subPropertyOf owl:topObjectProperty .
+                 owl:inverseOf :isRightsHolderOf .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasRole
 :hasRole rdf:type owl:ObjectProperty ;
-         rdfs:subPropertyOf owl:topObjectProperty ;
+         owl:inverseOf :isRoleOf ;
          rdfs:label "has Role"@en ,
                     "hat Rolle"@de .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasSource
 :hasSource rdf:type owl:ObjectProperty ;
-           rdfs:subPropertyOf owl:topObjectProperty .
+           owl:inverseOf :isSourceOf .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasSubject
 :hasSubject rdf:type owl:ObjectProperty ;
-            rdfs:subPropertyOf owl:topObjectProperty .
+            owl:inverseOf :isSubjectOf .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasTemporalExtent
-:hasTemporalExtent rdf:type owl:ObjectProperty .
+:hasTemporalExtent rdf:type owl:ObjectProperty ;
+                   owl:inverseOf :isTemporalExtentOf .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasType
 :hasType rdf:type owl:ObjectProperty ;
-         rdfs:subPropertyOf owl:topObjectProperty .
+         owl:inverseOf :isTypeOf .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasVersion
-:hasVersion rdf:type owl:ObjectProperty .
+:hasVersion rdf:type owl:ObjectProperty ;
+            owl:inverseOf :isVersionOf .
+
+
+###  https://mvdk.digital/schema/mvdko/isBaseOf
+:isBaseOf rdf:type owl:ObjectProperty ;
+          owl:inverseOf :isBasedOn ;
+          rdfs:label "is base of"@en ,
+                     "ist Vorlage/Inspiration/Einfluss von"@de .
 
 
 ###  https://mvdk.digital/schema/mvdko/isBasedOn
-:isBasedOn rdf:type owl:ObjectProperty ;
-           rdfs:subPropertyOf owl:topObjectProperty .
+:isBasedOn rdf:type owl:ObjectProperty .
+
+
+###  https://mvdk.digital/schema/mvdko/isContributorOf
+:isContributorOf rdf:type owl:ObjectProperty ;
+                 rdfs:label "is contributor of"@en ,
+                            "ist Mitwirkende*r von"@de .
+
+
+###  https://mvdk.digital/schema/mvdko/isCreatorOf
+:isCreatorOf rdf:type owl:ObjectProperty ;
+             rdfs:label "is creator of"@en ,
+                        "ist Schöpfer*in von"@de .
+
+
+###  https://mvdk.digital/schema/mvdko/isDateOf
+:isDateOf rdf:type owl:ObjectProperty ;
+          rdfs:label "is date of"@en ,
+                     "ist Datum von"@de .
+
+
+###  https://mvdk.digital/schema/mvdko/isEventOf
+:isEventOf rdf:type owl:ObjectProperty ;
+           rdfs:label "is event of"@en ,
+                      "ist Ereignis von"@de .
+
+
+###  https://mvdk.digital/schema/mvdko/isFunctionOf
+:isFunctionOf rdf:type owl:ObjectProperty ;
+              rdfs:label "is function of"@en ,
+                         "ist Funktion von"@de .
+
+
+###  https://mvdk.digital/schema/mvdko/isIdentifierOf
+:isIdentifierOf rdf:type owl:ObjectProperty ;
+                rdfs:label "is identifier of"@en ,
+                           "ist Identifier von"@de .
+
+
+###  https://mvdk.digital/schema/mvdko/isKeywordOf
+:isKeywordOf rdf:type owl:ObjectProperty ;
+             rdfs:label "is keyword of"@en ,
+                        "ist Schlagwort von"@de .
+
+
+###  https://mvdk.digital/schema/mvdko/isLanguageOf
+:isLanguageOf rdf:type owl:ObjectProperty ;
+              rdfs:label "is language of"@en ,
+                         "ist Sprache von"@de .
+
+
+###  https://mvdk.digital/schema/mvdko/isLocationOf
+:isLocationOf rdf:type owl:ObjectProperty ;
+              rdfs:label "is location of"@en ,
+                         "ist Ort von"@de .
+
+
+###  https://mvdk.digital/schema/mvdko/isLocationOfPublicationOf
+:isLocationOfPublicationOf rdf:type owl:ObjectProperty ;
+                           rdfs:label "is location of publication of"@en ,
+                                      "ist Veröffentlichungsort von"@de .
+
+
+###  https://mvdk.digital/schema/mvdko/isMediaCarrierOf
+:isMediaCarrierOf rdf:type owl:ObjectProperty ;
+                  rdfs:label "is media carrier of"@en ,
+                             "ist Medienträger von"@de .
+
+
+###  https://mvdk.digital/schema/mvdko/isMediumChannelOf
+:isMediumChannelOf rdf:type owl:ObjectProperty ;
+                   rdfs:label "is broadcast channel of"@en ,
+                              "ist Ausstrahlungskanal von"@de .
+
+
+###  https://mvdk.digital/schema/mvdko/isMediumDateOf
+:isMediumDateOf rdf:type owl:ObjectProperty ;
+                rdfs:label "is medium date of"@en ,
+                           "ist Datumsangabe von"@de .
+
+
+###  https://mvdk.digital/schema/mvdko/isMediumEncodingOf
+:isMediumEncodingOf rdf:type owl:ObjectProperty ;
+                    rdfs:label "is medium encoding of"@en ,
+                               "ist Art der Medienencodierung von"@de .
+
+
+###  https://mvdk.digital/schema/mvdko/isMediumOf
+:isMediumOf rdf:type owl:ObjectProperty ;
+            rdfs:label "is medium of"@en ,
+                       "ist Medium von"@de .
+
+
+###  https://mvdk.digital/schema/mvdko/isMediumRegionalCodeOf
+:isMediumRegionalCodeOf rdf:type owl:ObjectProperty ;
+                        rdfs:label "is regional code of"@en ,
+                                   "ist Regionalcode von"@de .
+
+
+###  https://mvdk.digital/schema/mvdko/isMediumTelevisionStandardOf
+:isMediumTelevisionStandardOf rdf:type owl:ObjectProperty ;
+                              rdfs:label "is television standard of"@en ,
+                                         "ist Fernsehnorm von"@de .
+
+
+###  https://mvdk.digital/schema/mvdko/isPartOf
+:isPartOf rdf:type owl:ObjectProperty ;
+          rdfs:label "is part of"@en ,
+                     "ist Teil von"@de .
+
+
+###  https://mvdk.digital/schema/mvdko/isPlaceOfOccurrenceOf
+:isPlaceOfOccurrenceOf rdf:type owl:ObjectProperty ;
+                       rdfs:label "is place of occurrence of"@en ,
+                                  "ist Veranstaltungsort von"@de .
+
+
+###  https://mvdk.digital/schema/mvdko/isPlaceOfResidenceOf
+:isPlaceOfResidenceOf rdf:type owl:ObjectProperty ;
+                      rdfs:label "is place of residence of"@en ,
+                                 "ist Residentort von"@de .
+
+
+###  https://mvdk.digital/schema/mvdko/isRecordedIn
+:isRecordedIn rdf:type owl:ObjectProperty ;
+              rdfs:label "is recorded in"@en ,
+                         "ist aufgezeichnet in"@de .
+
+
+###  https://mvdk.digital/schema/mvdko/isRelatedPlaceOf
+:isRelatedPlaceOf rdf:type owl:ObjectProperty ;
+                  rdfs:label "is related place of"@en ,
+                             "ist zugehöriger/relevanter Ort von"@de .
+
+
+###  https://mvdk.digital/schema/mvdko/isRightsHolderOf
+:isRightsHolderOf rdf:type owl:ObjectProperty ;
+                  rdfs:label "is rights holder of"@en ,
+                             "ist Rechteinhaber*in von"@de .
+
+
+###  https://mvdk.digital/schema/mvdko/isRightsOf
+:isRightsOf rdf:type owl:ObjectProperty ;
+            rdfs:label "is rights statement/information of"@en ,
+                       "ist Rechteinformation von"@de .
+
+
+###  https://mvdk.digital/schema/mvdko/isRoleOf
+:isRoleOf rdf:type owl:ObjectProperty ;
+          rdfs:label "is role of"@en ,
+                     "ist Rolle von"@de .
+
+
+###  https://mvdk.digital/schema/mvdko/isSourceOf
+:isSourceOf rdf:type owl:ObjectProperty ;
+            rdfs:label "is Quelle von"@de ,
+                       "is source of"@en .
+
+
+###  https://mvdk.digital/schema/mvdko/isSubjectOf
+:isSubjectOf rdf:type owl:ObjectProperty ;
+             rdfs:label "is subject of"@en ,
+                        "ist Thema/Gegenstand von"@de .
+
+
+###  https://mvdk.digital/schema/mvdko/isTemporalExtentOf
+:isTemporalExtentOf rdf:type owl:ObjectProperty ;
+                    rdfs:label "is tempral extent/duration of"@en ,
+                               "ist Dauer von"@de .
+
+
+###  https://mvdk.digital/schema/mvdko/isTypeOf
+:isTypeOf rdf:type owl:ObjectProperty ;
+          rdfs:label "is type of"@en ,
+                     "ist Art von"@de .
+
+
+###  https://mvdk.digital/schema/mvdko/isVersionOf
+:isVersionOf rdf:type owl:ObjectProperty ;
+             rdfs:label "is version of"@en ,
+                        "ist Version von"@de .
 
 
 #################################################################
@@ -435,7 +631,7 @@ In aktiver Bearbeitung."""@de .
                      "hat zugehöriges Ereignis"@de .
 
 
-:hasIdentifier rdfs:label "hat Identififier"@de ,
+:hasIdentifier rdfs:label "hat Identifier"@de ,
                           "has Identifier"@en .
 
 
@@ -510,7 +706,7 @@ hasAudioChannels/hasAudioChannelLayout und hasAudioTrack wären möglicherweise 
 
 
 :hasRightsHolder rdfs:label "has rights holder"@en ,
-                            "hat Rechteinhaber"@de .
+                            "hat Rechteinhaber*in"@de .
 
 
 :hasSource rdfs:label "hat Quelle"@de ,
