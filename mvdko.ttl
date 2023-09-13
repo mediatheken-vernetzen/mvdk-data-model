@@ -4,545 +4,694 @@
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix mvdko: <https://mvdk.digital/schema/mvdko/> .
 @base <https://mvdk.digital/schema/mvdko/> .
 
 <https://mvdk.digital/schema/mvdko/> rdf:type owl:Ontology ;
                                       owl:versionIRI <https://mvdk.digital/schema/mvdko/> ;
                                       owl:imports <http://www.w3.org/2004/02/skos/core> ;
-                                      rdfs:comment """Intern verwendetes Datenmodell für das \"Mediatheken der Darstellenden Kunst digital vernetzen\" Projekt.
+                                      rdfs:comment """Intern verwendetes Datenmodell für das \"Mediatheken der Darstellenden Kunst digital vernetzen\" Projekt. Das primäre Anwendungsgebiet des Datenmodells sind Audiovisuellen Medien in der Domäne der Darstellende Künste
 
 In aktiver Bearbeitung."""@de .
+
+#################################################################
+#    Annotation properties
+#################################################################
+
+
+#################################################################
+#    Datatypes
+#################################################################
+
 
 #################################################################
 #    Object Properties
 #################################################################
 
+###  https://mvdk.digital/schema/mvdko/hasAlternativeLabel
+mvdko:hasAlternativeLabel rdf:type owl:ObjectProperty ;
+                          rdfs:domain owl:Thing ,
+                                      mvdko:Agent ,
+                                      mvdko:CreativeConcept ,
+                                      mvdko:Event ,
+                                      mvdko:MediaResource ,
+                                      mvdko:Person ;
+                          rdfs:range rdf:langString .
+
+
+###  https://mvdk.digital/schema/mvdko/hasAlternativeTitle
+mvdko:hasAlternativeTitle rdf:type owl:ObjectProperty ;
+                          rdfs:subPropertyOf mvdko:hasAlternativeLabel ;
+                          rdfs:domain mvdko:CreativeConcept ,
+                                      mvdko:Event ,
+                                      mvdko:MediaResource .
+
+
 ###  https://mvdk.digital/schema/mvdko/hasContributor
-:hasContributor rdf:type owl:ObjectProperty ;
-                owl:inverseOf :isContributorOf .
+mvdko:hasContributor rdf:type owl:ObjectProperty ;
+                     rdfs:domain mvdko:CreativeConcept ,
+                                 mvdko:Event ,
+                                 mvdko:MediaCarrier ,
+                                 mvdko:MediaResource ;
+                     rdfs:range mvdko:Agent ;
+                     rdfs:comment "mvdk empfiehlt, (mvdko:hasContributor)-Beziehungen via RDF-Star mit (mvdko:hasFunction) und/oder (mvdko:hasRole) weiter zu spezifizieren."@de ,
+                                  "mvdk empfiehlt, wenn genauere Angaben der Beziehung zwischen Medienressource und des*der Mitwirkenden bekannt sind, eine der beiden Properties (mvdko:hasFunction) und/oder (mvdko:hasRole) für die genauere Beschreibung der Mitwirkungsbeziehung (mvdko:hasContributor) zu nutzen."@de ,
+                                  "mvdk recommends further specifying (mvdko:hasContributor)-relationships via RDF-Star with (mvdko:hasFunction) and/or (mvdko:hasRole)."@en ,
+                                  "mvdk recommends using one of the two properties (mvdko:hasFunction) and/or (mvdko:hasRole) to describe the relationship of contribution more precisely (mvdko:hasContributor) if more details are known about the relationship between the Media Resource and the Contributor."@en ;
+                     rdfs:label "has contributor"@en ,
+                                "hat Mitwirkende*n"@de ;
+                     skos:definition "Beschreibt die Mitwirkung von Akteur*innen an einem Kreativen Konzept, einem Ereignis oder einer Medienressource."@de ,
+                                     "Describes the contribution of Agents involved in a Creative Concept, an Event or a Media Resource."@en ;
+                     skos:example "Am Workshop \"Mediatheken vernetzen II\" (mvdko:Event) wirkte (mvdko:hasContributor) das \"Projektteam von Mediatheken der Darstellenden Kunst digital vernetzen\" (mvdko:Agent) mit."@de ,
+                                  "An der Dokumentation \"Breath Made Visible\" (mvdko:MediaResource) wirkte (mvdko:hasContributor) \"Ruedi Gerber\" (mvdko:Person) mit."@de ,
+                                  "An der Produktion \"Violet\" (mvdko:CreativeConcept) wirkten (mvdko:hasContributor) \"Varinia Canto Vila\", \"Adam Linder\", \"Kotomi Nishiwaki\", \"Roger Sala Reyner\", \"Meg Stuart\" und viele weitere (mvdko:Person) mit."@de ,
+                                  "At the documentary \"Breath Made Visible\" (mvdko:MediaResource) contributed (mvdko:hasContributor) \"Ruedi Gerber\" (mvdko:Person)."@en ,
+                                  "At the production \"Violet\" (mvdko:CreativeConcept) contributed (mvdko:hasContributor) \"Varinia Canto Vila\", \"Adam Linder\", \"Kotomi Nishiwaki\", \"Roger Sala Reyner\", \"Meg Stuart\" and many others (mvdko:Person)."@en ,
+                                  "At the workshop \"Mediatheken vernetzen II\" (mvdko:Event) contributed (mvdko:hasContributor) the \"Projektteam von Mediatheken der Darstellenden Kunst digital vernetzen\" (mvdko:Agent)."@en ;
+                     skos:scopeNote "Es können mehrere Mitwirkungsbeziehungen bestehen."@de ,
+                                    "There can be several relationships of contribution."@en .
 
 
-###  https://mvdk.digital/schema/mvdko/hasCreator
-:hasCreator rdf:type owl:ObjectProperty ;
-            owl:inverseOf :isCreatorOf .
-
-
-###  https://mvdk.digital/schema/mvdko/hasDate
-:hasDate rdf:type owl:ObjectProperty ;
-         owl:inverseOf :isDateOf .
+###  https://mvdk.digital/schema/mvdko/hasEncodingFormat
+mvdko:hasEncodingFormat rdf:type owl:ObjectProperty ;
+                        rdfs:subPropertyOf owl:topObjectProperty ;
+                        rdfs:domain mvdko:MediaCarrier .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasEvent
-:hasEvent rdf:type owl:ObjectProperty ;
-          owl:inverseOf :isEventOf .
+mvdko:hasEvent rdf:type owl:ObjectProperty ;
+               rdfs:domain mvdko:CreativeConcept ,
+                           mvdko:MediaResource ;
+               rdfs:range mvdko:Event ;
+               rdfs:label "has event"@en ,
+                          "hat Ereignis"@de ;
+               skos:definition "Relates a Media Resource or a Creative Concept to an Event."@en ,
+                               "Verbindet eine Medienressource oder ein Kreatives Konzept mit einem Ereignis."@de ;
+               skos:example "Die Aufzeichnung (mvdko:MediaResource) zeigt die am 22.02.2023 stattgefundene (mvdko:hasEvent) Aufführung von \"In den Alpen/Après les Alpes\" (mvdko:Event) am \"Volkstheater Wien\"."@de ,
+                            "Die Produktion \"Faust\" (mvdko:CreativeConcept) von \"Einar Schleef\" wurde aufgeführt am (mvdko:hasEvent) 16.10.1993."@de ,
+                            "The production \"Faust\" (mvdko:CreativeConcept) by \"Einar Schleef\" took place (mvdko:hasEvent) 16.10.1993."@en ,
+                            "The recording (mvdko:MediaResource) shows the performance (mvdko:hasEvent) of \"In den Alpen/Après les Alpes\" (mvdko:Event) which took place on 22.02.2023 at the \"Volkstheater Wien\"."@en .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasFunction
-:hasFunction rdf:type owl:ObjectProperty ;
-             owl:inverseOf :isFunctionOf ;
-             rdfs:label "has Function"@en ,
-                        "hat Funktion"@de .
-
-
-###  https://mvdk.digital/schema/mvdko/hasIdentifier
-:hasIdentifier rdf:type owl:ObjectProperty ;
-               owl:inverseOf :isIdentifierOf .
+mvdko:hasFunction rdf:type owl:ObjectProperty ;
+                  rdfs:domain mvdko:Agent .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasKeyword
-:hasKeyword rdf:type owl:ObjectProperty ;
-            owl:inverseOf :hasKeyword .
+mvdko:hasKeyword rdf:type owl:ObjectProperty ;
+                 rdfs:domain owl:Thing .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasLanguage
-:hasLanguage rdf:type owl:ObjectProperty ;
-             owl:inverseOf :isLanguageOf .
-
-
-###  https://mvdk.digital/schema/mvdko/hasLocation
-:hasLocation rdf:type owl:ObjectProperty ;
-             owl:inverseOf :isLocationOf .
-
-
-###  https://mvdk.digital/schema/mvdko/hasLocationOfPublication
-:hasLocationOfPublication rdf:type owl:ObjectProperty ;
-                          owl:inverseOf :isLocationOfPublicationOf .
+mvdko:hasLanguage rdf:type owl:ObjectProperty ;
+                  rdfs:domain mvdko:CreativeConcept ,
+                              mvdko:Event ,
+                              mvdko:MediaResource .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasMediaCarrier
-:hasMediaCarrier rdf:type owl:ObjectProperty ;
-                 owl:inverseOf :isMediaCarrierOf .
-
-
-###  https://mvdk.digital/schema/mvdko/hasMedium
-:hasMedium rdf:type owl:ObjectProperty ;
-           owl:inverseOf :isMediumOf .
-
-
-###  https://mvdk.digital/schema/mvdko/hasMediumChannel
-:hasMediumChannel rdf:type owl:ObjectProperty ;
-                  owl:inverseOf :isMediumChannelOf .
-
-
-###  https://mvdk.digital/schema/mvdko/hasMediumDate
-:hasMediumDate rdf:type owl:ObjectProperty ;
-               owl:inverseOf :isMediumDateOf .
-
-
-###  https://mvdk.digital/schema/mvdko/hasMediumEncoding
-:hasMediumEncoding rdf:type owl:ObjectProperty ;
-                   owl:inverseOf :isMediumEncodingOf .
-
-
-###  https://mvdk.digital/schema/mvdko/hasMediumRegionalCode
-:hasMediumRegionalCode rdf:type owl:ObjectProperty ;
-                       owl:inverseOf :isMediumRegionalCodeOf .
-
-
-###  https://mvdk.digital/schema/mvdko/hasMediumTelevisionStandard
-:hasMediumTelevisionStandard rdf:type owl:ObjectProperty ;
-                             owl:inverseOf :isMediumTelevisionStandardOf .
+mvdko:hasMediaCarrier rdf:type owl:ObjectProperty ;
+                      rdfs:domain mvdko:MediaResource ;
+                      rdfs:range mvdko:MediaCarrier ;
+                      rdfs:label "has media carrier"@en ,
+                                 "hat Medienträger"@de ;
+                      skos:definition "Links Media Resources to their corresponding Media Carriers."@en ,
+                                      "Verbindet eine Medienressource mit dem physischen oder digitalen Objekt, das sie trägt."@de ;
+                      skos:example "Der Mitschnitt von \"Faust\" (mvdko:MediaResource) von \"Einar Schleef\", aufgeführt 1993 auf den Stufen des \"Schillertheaters\", ist auf (hasMediaCarrier) einer VHS-Kassette (mvdko:MediaCarrier) festgehalten."@de ,
+                                   "Die mp4-Datei mit einer Aufzeichnung der Performance \"stroke all the colours out of the sky\" (mvdko:Mediaresource) von \"Asher O’Gorman\" , aufgeführt 2023 am \"brut nordwest\", ist auf (hasMediaCarrier) einer externen Festplatte (mvdko:MediaCarrier) gespeichert."@de ,
+                                   "The mp4 recording of the performance \"stroke all the colours out of the sky\" (mvdko:Mediaresource) by \"Asher O'Gorman\", performed in 2023 at \"brut nordwest\", is stored on (hasMediaCarrier) an external hard drive (mvdko:MediaCarrier)."@en ,
+                                   "The recording of \"Faust\" (mvdko:MediaResource) by \"Einar Schleef\", performed in 1993 on the steps of the \"Schillertheater\", is recorded on (hasMediaCarrier) a VHS cassette (mvdko:MediaCarrier)."@en .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasPart
-:hasPart rdf:type owl:ObjectProperty ;
-         owl:inverseOf :isPartOf .
+mvdko:hasPart rdf:type owl:ObjectProperty ;
+              rdfs:domain owl:Thing ;
+              rdfs:range owl:Thing ;
+              rdfs:comment "Organisationen, die aus (mehreren) Akteur*innen bestehen, werden mit diesen Akteur*innen über die Eigenschaft (mvdko:hasContributor) verbunden, nicht über (mvdko:hasPart)."@de ,
+                           "Organizations that consist of (multiple) Agents, should be linked with them using the (mvdko:hasContributor) property, not using (mvdko:hasPart)."@en ;
+              rdfs:label "has part"@en ,
+                         "hat Teil"@de ;
+              skos:definition "Eine generische Verbindung einer Entität mit einem zu ihr gehörigen Teil."@de ,
+                              "Links an entity generically with a corresponding part of it."@en ;
+              skos:example "Austria (mvdko:Place) contains (mvdko:hasPart) the city of Vienna (mvdko:Place)."@en ,
+                           "Der Workshop \"tanz digital - Technologien, Methoden, künstlerische Strategien\" (mvdko:Event) hat als Teilveranstaltung (mvdko:hasPart) das Panel \"Introduction of digital technologies in dance\" (mvdko:Event)."@de ,
+                           "Die Dokumentation \"Der lange stille Weg\" (mvdko:MediaResource) hat einen Teil (mvdko:hasPart) \"Der lange stille Weg: Dialoge\" (mvdko:MediaResource)."@de ,
+                           "The documentary \"Der lange stille Weg\" (mvdko:MediaResource) has a part (mvdko:hasPart) \"Der lange stille Weg: Dialoge\" (mvdko:MediaResource)."@en ,
+                           "The workshop \"tanz digital - Technologien, Methoden, künstlerische Strategien\" (mvdko:Event) included a panel (mvdko:hasPart) named \"Introduction of digital technologies in dance\" (mvdko:Event)."@en ,
+                           "Österreich (mvdko:Place) enthält (mvdko:hasPart) die Stadt Wien (mvdko:Place)."@de .
+
+
+###  https://mvdk.digital/schema/mvdko/hasPlace
+mvdko:hasPlace rdf:type owl:ObjectProperty ;
+               rdfs:domain mvdko:Agent ,
+                           mvdko:CreativeConcept ,
+                           mvdko:Event ,
+                           mvdko:MediaResource ;
+               rdfs:range mvdko:Place ;
+               rdfs:comment "mvdk empfiehlt, bei Vorhandensein spezifischerer Informationen sollte eine der vorhandenen Unterklassen genutzt werden."@de ,
+                            "mvdk recommends that if more specific information is available, one of the existing subclasses should be used."@en ;
+               rdfs:label "has place"@en ,
+                          "hat Ort"@de ;
+               skos:definition "Drückt eine generische Beziehung zu einem Ort aus."@de ,
+                               "This property represents a generic relation to some Place."@en ;
+               skos:example "Barrie Kosky performed his \"Dreigroschenoper\" (mvdko:CreativeConcept) at the (mvdko:hasPlace) \"Berliner Ensemble\" (mvdko:Place)."@en ,
+                            "Barrie Kosky zeigte seine \"Dreigroschenoper\" (mvdko:CreativeConcept) am (mvdko:hasPlace) \"Berliner Ensemble\" (mvdko:Place)."@de ,
+                            "Das \"Schubert Theater\" (mvdko:Organization) ist situiert (mvdko:hasPlaceOfResidence) in Wien (mvdko:Place)."@de ,
+                            "Die Aufführung des Theaterstücks \"Faust\" (mvdko:Event) fand statt im (mvdko:hasPlace) \"Schillertheater\" in Berlin (mvdko:Place)."@de ,
+                            "The \"Schubert Theater\" (mvdko:Organization) is located (mvdko:hasPlaceOfResidence) in Vienna (mvdko:Place)."@en ,
+                            "The performance of the play \"Faust\" (mvdko:Event) took place at the (mvdko:hasPlace) \"Schillertheater\" in Berlin (mvdko:Place)."@en .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasPlaceOfOccurrence
-:hasPlaceOfOccurrence rdf:type owl:ObjectProperty ;
-                      owl:inverseOf :isPlaceOfOccurrenceOf .
+mvdko:hasPlaceOfOccurrence rdf:type owl:ObjectProperty ;
+                           rdfs:subPropertyOf mvdko:hasPlace ;
+                           rdfs:domain mvdko:Event ;
+                           rdfs:range mvdko:Place ;
+                           rdfs:label "has place of occurrence"@en ,
+                                      "hat Ereignisort"@de ;
+                           skos:definition "Beschreibt den Ort, an dem ein Ereignis stattfindet."@de ,
+                                           "Describes the Place where an Occurrence takes place."@en ;
+                           skos:example "Der Workshop \"Mediatheken vernetzen II\" (mvdko:Event) fand statt (mvdko:hasPlace) in der Mediathek für Tanz und Theater (mvdko:Place)."@de ,
+                                        "Die Uraufführung von \"Elfriede Jelineks\" \"Schwarzwasser\" (mvdko:Event) fand statt (mvdko:hasPlace) am \"Burgtheater (Akademietheater) Wien\" (mvdko:Place)."@de ,
+                                        "The premiere of \"Schwarzwasser\" (mvdko:Event) by \"Elfriede Jelinek\" took place at (mvdko:hasPlace) \"Burgtheater (Akademietheater) Wien\" (mvdko:Place)."@en ,
+                                        "The workshop \"Mediatheken vernetzen II\" (mvdko:Event) took place (mvdko:hasPlace) in the Mediathek für Tanz und Theater (mvdko:Place)."@en .
+
+
+###  https://mvdk.digital/schema/mvdko/hasPlaceOfPublication
+mvdko:hasPlaceOfPublication rdf:type owl:ObjectProperty ;
+                            rdfs:subPropertyOf mvdko:hasPlace ;
+                            rdfs:domain mvdko:CreativeConcept ,
+                                        mvdko:MediaResource ;
+                            rdfs:range mvdko:Place ;
+                            rdfs:label "has Place of Publication"@en ,
+                                       "hat Veröffentlichungsort"@de ;
+                            skos:definition "Connects an entity to a Place where it is published."@en ,
+                                            "Verbindet eine Entität mit einem Ort ihrer Veröffentlichung."@de ;
+                            skos:example "Das Buch \"Performing the Archive\" (mvdko:CreativeConcept) wurde im \"Olms-Verlag\" in Hildesheim (mvdko:Place) veröffentlicht (mvdko:hasPlaceOfPublication)."@de ,
+                                         "Die als DVD veröffentlichte Dokumentation \"Breath Made Visible\" (mvdko:MediaResource) hat den Veröffentlichungsort (mvdko:hasPlaceOfPublication) Nortorf (mvdko:Place)."@de ,
+                                         "The book \"Performing the Archive\" (mvdko:CreativeConcept) was published (mvdko:hasPlaceOfPublication) by \"Olms-Verlag\" in Hildesheim (mvdko:Place)."@en ,
+                                         "The documentary \"Breath Made Visible\" (mvdko:MediaResource) published als DVD has the place of publication (mvdko:hasPlaceOfPublication) Nortorf (mvdko:Place)."@en ;
+                            skos:scopeNote "Beschreibt den Veröffentlichungsort von Entitäten wie (mvdko:CreativeConcept) und (mvdko:MediaResource)."@de ,
+                                           "Describes the place of publication of entities such as (mvdko:CreativeConcept) and (mvdko:MediaResource)."@en .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasPlaceOfResidence
-:hasPlaceOfResidence rdf:type owl:ObjectProperty ;
-                     owl:inverseOf :isPlaceOfResidenceOf .
+mvdko:hasPlaceOfResidence rdf:type owl:ObjectProperty ;
+                          rdfs:subPropertyOf mvdko:hasPlace ;
+                          rdfs:domain mvdko:Agent ;
+                          rdfs:range mvdko:Place ;
+                          rdfs:label "has place of residence"@en ,
+                                     "hat Residenzort"@de ;
+                          skos:definition "Beschreibt den Ort, an dem ein Ensemble oder ein*e Künstler*in residiert."@de ,
+                                          "Describes the Place where an ensemble or artist resides."@en ;
+                          skos:example "Das Ensemble des \"Schubert Theater\" (mvdko:Organization) ist situiert (mvdko:hasPlaceOfResidence) in Wien (mvdko:Place)."@de ,
+                                       "Das Performance-Kollektiv \"She She Pop\" (mvdko:Organization) ist (mvdko:hasPlaceOfResidence) in Berlin (mvdko:Place) ansässig."@de ,
+                                       "The ensemble of the \"Schubert Theater\" (mvdko:Organiziation) is located (mvdko:hasPlaceOfResidence) in Vienna (mvdko:Place)."@en ,
+                                       "The performance collective \"She She Pop\" (mvdko:Organization) is based (mvdko:hasPlaceOfResidence) in Berlin (mvdko:Place)."@en .
+
+
+###  https://mvdk.digital/schema/mvdko/hasProvider
+mvdko:hasProvider rdf:type owl:ObjectProperty ;
+                  rdfs:domain mvdko:MediaCarrier ,
+                              mvdko:MediaResource ;
+                  rdfs:range mvdko:Agent ;
+                  rdfs:label "has provider"@en ,
+                             "hat Bestandshalter*in"@de ;
+                  skos:definition "Beschreibt den*die Bestandshalter*in einer Entität wie einer Medienressource oder eines Medienträgers."@de ,
+                                  "Describes the provider of an entity such as a Media Resource or a Media Carrier."@en ;
+                  skos:example "Die DVD \"Breath made visible\" (mvdko:MediaCarrier) findet sich im Bestand von (mvdko:hasProvider) der \"Universitätsbibliothek Bayreuth\" (mvdko:Organization)."@de ,
+                               "Die Medienresource \"Die Hamletmaschine Musiktheater in fünf Teilen (1983-1986)\" (mvdko:MediaResource) hat den*die Bestandshalter*in (mvdko:hasProvider) \"Institut für Angewandte Theaterwissenschaft der Justus-Liebig-Universität Gießen\" (mvdko:Organization)."@de ,
+                               "The DVD \"Breath made visible\" (mvdko:MediaCarrier) can be found in the collection (mvdko:hasProvider) of the \"Universitätsbibliothek Bayreuth\" (mvdko:Organization)."@en ,
+                               "The Media Resource \"Die Hamletmaschine Musiktheater in fünf Teilen (1983-1986)\" (mvdko:MediaResource) has the provider (mvdko:hasProvider) \"Institut für Angewandte Theaterwissenschaft der Justus-Liebig-Universität Gießen\" (mvdko:Organization)."@en .
+
+
+###  https://mvdk.digital/schema/mvdko/hasPublicationChannel
+mvdko:hasPublicationChannel rdf:type owl:ObjectProperty ;
+                            rdfs:domain mvdko:MediaResource ;
+                            rdfs:range mvdko:Organization .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasRecordingOf
-:hasRecordingOf rdf:type owl:ObjectProperty ;
-                owl:inverseOf :isRecordedIn .
+mvdko:hasRecordingOf rdf:type owl:ObjectProperty ;
+                     rdfs:domain mvdko:MediaResource ;
+                     rdfs:range mvdko:Agent ,
+                                mvdko:CreativeConcept ,
+                                mvdko:Event ;
+                     rdfs:label "has recording of"@en ,
+                                "hat Aufzeichnung von"@de ;
+                     skos:definition "Links a Media Resource with an entity of which it contains a recording."@en ,
+                                     "Verbindet eine Medienressource mit einer Entität, von der sie eine Aufzeichnung enthält."@de ;
+                     skos:example "Das Video \"Buddy Bodies\" (mvdko:MediaResource) enthält eine Aufzeichnung (mvdko:hasRecordingOf) des Stücks \"Buddy Bodies\" (mvdko:CreativeConcept)."@de ,
+                                  "Die Audiodatei \"Verdrängt das Kino das Theater?\" (mvdko:MediaResource) enthält eine Aufzeichnung (mvdko:hasRecordingOf) eines Gesprächs zwischen \"Theodor W. Adorno\", \"Martin Walser\", \"Joachim Kaiser\" und \"Uwe Nettelbeck\" (mvdko:Event)."@de ,
+                                  "The Video \"Buddy Bodies\" (mvdko:MediaResource) includes a recording of (mvdko:hasRecordingOf) the play \"Buddy Bodies\" (mvdko:CreativeConcept)."@en ,
+                                  "The audio file \"Verdrängt das Kino das Theater?\" (mvdko:MediaResource) includes a recording of (mvdko:hasRecordingOf) a conversation between \"Theodor W. Adorno\", \"Martin Walser\", \"Joachim Kaiser\" and \"Uwe Nettelbeck\" (mvdko:Event)."@en .
 
 
-###  https://mvdk.digital/schema/mvdko/hasRelatedPlace
-:hasRelatedPlace rdf:type owl:ObjectProperty ;
-                 owl:inverseOf :isRelatedPlaceOf ;
-                 rdfs:label "has related Place"@en ,
-                            "hat zugehörigen Ort"@de .
-
-
-###  https://mvdk.digital/schema/mvdko/hasRights
-:hasRights rdf:type owl:ObjectProperty ;
-           owl:inverseOf :isRightsOf .
+###  https://mvdk.digital/schema/mvdko/hasRegionalCode
+mvdko:hasRegionalCode rdf:type owl:ObjectProperty ;
+                      rdfs:domain mvdko:MediaCarrier .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasRightsHolder
-:hasRightsHolder rdf:type owl:ObjectProperty ;
-                 owl:inverseOf :isRightsHolderOf .
+mvdko:hasRightsHolder rdf:type owl:ObjectProperty ;
+                      rdfs:domain mvdko:CreativeConcept ,
+                                  mvdko:MediaCarrier ,
+                                  mvdko:MediaResource ;
+                      rdfs:range mvdko:Agent .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasRole
-:hasRole rdf:type owl:ObjectProperty ;
-         owl:inverseOf :isRoleOf ;
-         rdfs:label "has Role"@en ,
-                    "hat Rolle"@de .
+mvdko:hasRole rdf:type owl:ObjectProperty ;
+              rdfs:subPropertyOf owl:topObjectProperty ;
+              rdfs:domain mvdko:Agent .
 
 
-###  https://mvdk.digital/schema/mvdko/hasSource
-:hasSource rdf:type owl:ObjectProperty ;
-           owl:inverseOf :isSourceOf .
-
-
-###  https://mvdk.digital/schema/mvdko/hasSubject
-:hasSubject rdf:type owl:ObjectProperty ;
-            owl:inverseOf :isSubjectOf .
-
-
-###  https://mvdk.digital/schema/mvdko/hasTemporalExtent
-:hasTemporalExtent rdf:type owl:ObjectProperty ;
-                   owl:inverseOf :isTemporalExtentOf .
+###  https://mvdk.digital/schema/mvdko/hasTelevisionStandard
+mvdko:hasTelevisionStandard rdf:type owl:ObjectProperty ;
+                            rdfs:domain mvdko:MediaCarrier ,
+                                        mvdko:MediaResource .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasType
-:hasType rdf:type owl:ObjectProperty ;
-         owl:inverseOf :isTypeOf .
-
-
-###  https://mvdk.digital/schema/mvdko/hasVersion
-:hasVersion rdf:type owl:ObjectProperty ;
-            owl:inverseOf :isVersionOf .
-
-
-###  https://mvdk.digital/schema/mvdko/isBaseOf
-:isBaseOf rdf:type owl:ObjectProperty ;
-          owl:inverseOf :isBasedOn ;
-          rdfs:label "is base of"@en ,
-                     "ist Vorlage/Inspiration/Einfluss von"@de .
-
-
-###  https://mvdk.digital/schema/mvdko/isBasedOn
-:isBasedOn rdf:type owl:ObjectProperty .
-
-
-###  https://mvdk.digital/schema/mvdko/isContributorOf
-:isContributorOf rdf:type owl:ObjectProperty ;
-                 rdfs:label "is contributor of"@en ,
-                            "ist Mitwirkende*r von"@de .
-
-
-###  https://mvdk.digital/schema/mvdko/isCreatorOf
-:isCreatorOf rdf:type owl:ObjectProperty ;
-             rdfs:label "is creator of"@en ,
-                        "ist Schöpfer*in von"@de .
-
-
-###  https://mvdk.digital/schema/mvdko/isDateOf
-:isDateOf rdf:type owl:ObjectProperty ;
-          rdfs:label "is date of"@en ,
-                     "ist Datum von"@de .
-
-
-###  https://mvdk.digital/schema/mvdko/isEventOf
-:isEventOf rdf:type owl:ObjectProperty ;
-           rdfs:label "is event of"@en ,
-                      "ist Ereignis von"@de .
-
-
-###  https://mvdk.digital/schema/mvdko/isFunctionOf
-:isFunctionOf rdf:type owl:ObjectProperty ;
-              rdfs:label "is function of"@en ,
-                         "ist Funktion von"@de .
-
-
-###  https://mvdk.digital/schema/mvdko/isIdentifierOf
-:isIdentifierOf rdf:type owl:ObjectProperty ;
-                rdfs:label "is identifier of"@en ,
-                           "ist Identifier von"@de .
-
-
-###  https://mvdk.digital/schema/mvdko/isKeywordOf
-:isKeywordOf rdf:type owl:ObjectProperty ;
-             rdfs:label "is keyword of"@en ,
-                        "ist Schlagwort von"@de .
-
-
-###  https://mvdk.digital/schema/mvdko/isLanguageOf
-:isLanguageOf rdf:type owl:ObjectProperty ;
-              rdfs:label "is language of"@en ,
-                         "ist Sprache von"@de .
-
-
-###  https://mvdk.digital/schema/mvdko/isLocationOf
-:isLocationOf rdf:type owl:ObjectProperty ;
-              rdfs:label "is location of"@en ,
-                         "ist Ort von"@de .
-
-
-###  https://mvdk.digital/schema/mvdko/isLocationOfPublicationOf
-:isLocationOfPublicationOf rdf:type owl:ObjectProperty ;
-                           rdfs:label "is location of publication of"@en ,
-                                      "ist Veröffentlichungsort von"@de .
-
-
-###  https://mvdk.digital/schema/mvdko/isMediaCarrierOf
-:isMediaCarrierOf rdf:type owl:ObjectProperty ;
-                  rdfs:label "is media carrier of"@en ,
-                             "ist Medienträger von"@de .
-
-
-###  https://mvdk.digital/schema/mvdko/isMediumChannelOf
-:isMediumChannelOf rdf:type owl:ObjectProperty ;
-                   rdfs:label "is broadcast channel of"@en ,
-                              "ist Ausstrahlungskanal von"@de .
-
-
-###  https://mvdk.digital/schema/mvdko/isMediumDateOf
-:isMediumDateOf rdf:type owl:ObjectProperty ;
-                rdfs:label "is medium date of"@en ,
-                           "ist Datumsangabe von"@de .
-
-
-###  https://mvdk.digital/schema/mvdko/isMediumEncodingOf
-:isMediumEncodingOf rdf:type owl:ObjectProperty ;
-                    rdfs:label "is medium encoding of"@en ,
-                               "ist Art der Medienencodierung von"@de .
-
-
-###  https://mvdk.digital/schema/mvdko/isMediumOf
-:isMediumOf rdf:type owl:ObjectProperty ;
-            rdfs:label "is medium of"@en ,
-                       "ist Medium von"@de .
-
-
-###  https://mvdk.digital/schema/mvdko/isMediumRegionalCodeOf
-:isMediumRegionalCodeOf rdf:type owl:ObjectProperty ;
-                        rdfs:label "is regional code of"@en ,
-                                   "ist Regionalcode von"@de .
-
-
-###  https://mvdk.digital/schema/mvdko/isMediumTelevisionStandardOf
-:isMediumTelevisionStandardOf rdf:type owl:ObjectProperty ;
-                              rdfs:label "is television standard of"@en ,
-                                         "ist Fernsehnorm von"@de .
-
-
-###  https://mvdk.digital/schema/mvdko/isPartOf
-:isPartOf rdf:type owl:ObjectProperty ;
-          rdfs:label "is part of"@en ,
-                     "ist Teil von"@de .
-
-
-###  https://mvdk.digital/schema/mvdko/isPlaceOfOccurrenceOf
-:isPlaceOfOccurrenceOf rdf:type owl:ObjectProperty ;
-                       rdfs:label "is place of occurrence of"@en ,
-                                  "ist Veranstaltungsort von"@de .
-
-
-###  https://mvdk.digital/schema/mvdko/isPlaceOfResidenceOf
-:isPlaceOfResidenceOf rdf:type owl:ObjectProperty ;
-                      rdfs:label "is place of residence of"@en ,
-                                 "ist Residentort von"@de .
-
-
-###  https://mvdk.digital/schema/mvdko/isRecordedIn
-:isRecordedIn rdf:type owl:ObjectProperty ;
-              rdfs:label "is recorded in"@en ,
-                         "ist aufgezeichnet in"@de .
-
-
-###  https://mvdk.digital/schema/mvdko/isRelatedPlaceOf
-:isRelatedPlaceOf rdf:type owl:ObjectProperty ;
-                  rdfs:label "is related place of"@en ,
-                             "ist zugehöriger/relevanter Ort von"@de .
-
-
-###  https://mvdk.digital/schema/mvdko/isRightsHolderOf
-:isRightsHolderOf rdf:type owl:ObjectProperty ;
-                  rdfs:label "is rights holder of"@en ,
-                             "ist Rechteinhaber*in von"@de .
-
-
-###  https://mvdk.digital/schema/mvdko/isRightsOf
-:isRightsOf rdf:type owl:ObjectProperty ;
-            rdfs:label "is rights statement/information of"@en ,
-                       "ist Rechteinformation von"@de .
-
-
-###  https://mvdk.digital/schema/mvdko/isRoleOf
-:isRoleOf rdf:type owl:ObjectProperty ;
-          rdfs:label "is role of"@en ,
-                     "ist Rolle von"@de .
-
-
-###  https://mvdk.digital/schema/mvdko/isSourceOf
-:isSourceOf rdf:type owl:ObjectProperty ;
-            rdfs:label "is Quelle von"@de ,
-                       "is source of"@en .
-
-
-###  https://mvdk.digital/schema/mvdko/isSubjectOf
-:isSubjectOf rdf:type owl:ObjectProperty ;
-             rdfs:label "is subject of"@en ,
-                        "ist Thema/Gegenstand von"@de .
-
-
-###  https://mvdk.digital/schema/mvdko/isTemporalExtentOf
-:isTemporalExtentOf rdf:type owl:ObjectProperty ;
-                    rdfs:label "is tempral extent/duration of"@en ,
-                               "ist Dauer von"@de .
-
-
-###  https://mvdk.digital/schema/mvdko/isTypeOf
-:isTypeOf rdf:type owl:ObjectProperty ;
-          rdfs:label "is type of"@en ,
-                     "ist Art von"@de .
-
-
-###  https://mvdk.digital/schema/mvdko/isVersionOf
-:isVersionOf rdf:type owl:ObjectProperty ;
-             rdfs:label "is version of"@en ,
-                        "ist Version von"@de .
+mvdko:hasType rdf:type owl:ObjectProperty ;
+              rdfs:domain owl:Thing .
 
 
 #################################################################
 #    Data properties
 #################################################################
 
+###  https://mvdk.digital/schema/mvdko/hasAlternativeLabel
+mvdko:hasAlternativeLabel rdf:type owl:DatatypeProperty ;
+                          rdfs:subPropertyOf owl:topDataProperty .
+
+
 ###  https://mvdk.digital/schema/mvdko/hasAlternativeTitle
-:hasAlternativeTitle rdf:type owl:DatatypeProperty ;
-                     rdfs:comment "hat alternativen Titel" .
+mvdko:hasAlternativeTitle rdf:type owl:DatatypeProperty ;
+                          rdfs:range rdf:langString ,
+                                     xsd:string .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasBegin
-:hasBegin rdf:type owl:DatatypeProperty ;
-          rdfs:comment "hat Begin" .
-
-
-###  https://mvdk.digital/schema/mvdko/hasContributor
-:hasContributor rdf:type owl:DatatypeProperty .
-
-
-###  https://mvdk.digital/schema/mvdko/hasCreator
-:hasCreator rdf:type owl:DatatypeProperty .
+mvdko:hasBegin rdf:type owl:DatatypeProperty ;
+               rdfs:domain mvdko:Event ;
+               rdfs:range xsd:dateTime ;
+               rdfs:label "has begin"@en ,
+                          "hat Beginn"@de ;
+               skos:definition "Beschreibt den zeitlichen Beginn einer Entität."@de ,
+                               "Describes the temporal beginning of an entity."@en ;
+               skos:example "Die Aufführung (mvdko:Event) des \"Hamlet\" (mvdko:CreativeConcept) startet (mvdko:hasBegin) um 19:00."@de ,
+                            "Die Öffnung der Berliner Mauer (mvdko:Event) begann (mvdko:hasBegin) am 9.11.1989 mit der Pressekonferenz von \"Günther Schabowski\"."@de ,
+                            "The opening of the Berlin Wall (mvdko:Event) began (mvdko:hasBegin) on 9.11.1989 with the press conference by \"Günther Schabowski\"."@en ,
+                            "The performance of \"Hamlet\" (mvdko:CreativeConcept) starts (mvdko:hasBegin) at 19:00."@en ;
+               skos:scopeNote "Is used to describe the beginning of a time period, if such a temporal assignment can be made. The entity may or may not have an end (mvdko:hasEnd)."@en ,
+                              "Wird verwendet zur Beschreibung des Beginns einer Zeitspanne, falls solch eine Zeitzuordnung vorgenommen werden kann.. Die Entität kann aber muss nicht ein Ende (mvdko:hasEnd) haben."@de .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasDate
-:hasDate rdf:type owl:DatatypeProperty .
+mvdko:hasDate rdf:type owl:DatatypeProperty ;
+              rdfs:domain mvdko:Agent ,
+                          mvdko:CreativeConcept ,
+                          mvdko:Event ,
+                          mvdko:MediaCarrier ,
+                          mvdko:MediaResource ;
+              rdfs:range rdf:langString ,
+                         xsd:dateTime ;
+              rdfs:label "has date information"@en ,
+                         "hat Datumsangabe"@de ;
+              skos:definition "Links a concrete date, a specific moment in time or a period of time to an entity."@en ,
+                              "Verbindet ein konkretes Datum, einen einzelnen Zeitpunkt oder eine Zeitspanne mit einer Entität."@de ;
+              skos:example "Die Aufführung der Inszenierung \"Ophelia's got talent\" (mvdko:Event) fand statt am (mvdko:hasDate) 15.09.2022, 19:30-22:30."@de ,
+                           "Die Aufführung der Produktion \"Violet\" (mvdko:Event) fand statt am (mvdko:hasDate) 13.05.2022."@de ,
+                           "Die Geburt von \"Virginia Woolf\" (mvdko:Event) war am (mvdko:hasDate) 25.01.1882."@de ,
+                           "The birth of \"Virginia Woolf\" (mvdko:Event) took place on (mvdko:hasDate) 25.01.1882."@en ,
+                           "The performance of the production \"Ophelia's got talent\" (mvdko:Event) took place on (mvdko:hasDate) 15.09.2022, 19:30-22:30."@en ,
+                           "The performance of the production \"Violet\" (mvdko:Event) took place on (mvdko:hasDate) 13.05.2022."@en ;
+              skos:scopeNote "Includes all Date information. Further specification of the type of Date (for example: (hasDateOfPublication)) should be made if known."@en ,
+                             "Umfasst alle Datumsangaben. Nähere Spezifikation der Art der Datumsangabe (zum Beispiel: (hasDateOfPublication)) sollte, wenn bekannt, vorgenommen werden."@de .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasDateOfPublication
-:hasDateOfPublication rdf:type owl:DatatypeProperty ;
-                      rdfs:comment "hat Veröffentlichungsdatum"@de .
+mvdko:hasDateOfPublication rdf:type owl:DatatypeProperty ;
+                           rdfs:subPropertyOf mvdko:hasDate ;
+                           rdfs:domain mvdko:CreativeConcept ,
+                                       mvdko:MediaResource ;
+                           rdfs:range xsd:dateTime ;
+                           rdfs:label "has date of publication"@en ,
+                                      "hat Veröffentlichungsdatum"@de ;
+                           skos:definition "Beschreibt das Veröffentlichungsdatum einer Entität."@de ,
+                                           "Describes the Date of Publication of an entity."@en ;
+                           skos:example "Das Buch \"Ästhetik des Performativen\" (mvdko:MediaResource) von \"Erika Fischer-Lichte\" (mvdko:hasContributor) wurde veröffentlicht (mvdko:hasDateOfPublication) im Jahr 2004."@de ,
+                                        "Die audiovisuelle Dokumentation \"Breath Made Visible\" (mvdko:MediaResource) wurde als DVD veröffentlicht am (mvdko:hasDateOfPublication) 25.11.2010."@de ,
+                                        "The audiovisual documentary \"Breath Made Visible\" (mvdko:MediaResource) was published as a DVD on (mvdko:hasDateOfPublication) 25.11.2010."@en ,
+                                        "The book \"Ästhetik des Performativen\" (mvdko:MediaResource) by \"Erika Fischer-Lichte\" (mvdko:hasContributor) was published (mvdko:hasDateOfPublication) in 2004."@en ;
+                           skos:scopeNote "Entities can be Media Resources or Creative Concepts, amongst others."@en ,
+                                          "Entitäten können unter anderem Medienressourcen oder Kreative Konzepte sein."@de .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasDescription
-:hasDescription rdf:type owl:DatatypeProperty ;
-                rdfs:comment "hat Beschreibung"@de .
+mvdko:hasDescription rdf:type owl:DatatypeProperty ;
+                     rdfs:domain owl:Thing ;
+                     rdfs:range rdf:langString ;
+                     rdfs:label "has description"@en ,
+                                "hat Beschreibung"@de ;
+                     skos:definition "Links an entity such as a Media Resource, Event or Creative Concept to a descriptionrelated to it."@en ,
+                                     "Verbindet eine Entität wie einer Medienressource, einem Event oder einem Kreativen Konzept mit einer zu ihr gehörigen Beschreibung."@de ;
+                     skos:example "Das Flugblatt \"Flugschrift: DGB fordert neues Mietrecht für Berlin, 1986\" (mvdko:MediaResource) des \"FHXB Friedrichshain-Kreuzberg Museum\" (mvdko:hasProvider) hat die Beschreibung (mvdko:hasDescription) \"Der DGB Landesbezirk Berlin fordert eine sozialorientierte Wohnungspolitik und ist gegen eine Aufhebung der Mietpreisbindung (beidseitig bedruckt, gelocht)\"."@de ,
+                                  "Der Theaterzettel \"Wilhelm Tell : Schauspiel in 5 Aufzügen\" (mvdko:MediaResource) aus der \"Staatsbibliothek zu Berlin\" (mvdko:hasProvider) hat die Beschreibung (mvdko:hasDescription) \"Aufführungsdatum: 28.08.1914. Schmuckelemente: Schillerkopf, Bem. d. Veranstalters: Veranstaltungshinweise: Aufführungsort: Berlin\"."@de ,
+                                  "The leaflet \"Flugschrift: DGB fordert neues Mietrecht für Berlin, 1986\" (mvdko:MediaResource) of the \"FHXB Friedrichshain-Kreuzberg Museum\" (mvdko:hasProvider) has the description (mvdko:hasDescription) \"Der DGB Landesbezirk Berlin fordert eine sozialorientierte Wohnungspolitik und ist gegen eine Aufhebung der Mietpreisbindung (printed on both sides, perforated)\"."@en ,
+                                  "The playbill \"Wilhelm Tell : Schauspiel in 5 Aufzügen\" (mvdko:MediaResource) from the \"Staatsbibliothek zu Berlin\" (mvdko:hasProvider) has the description (mvdko:hasDescription) \"Aufführungsdatum: 28.08.1914. Schmuckelemente: Schillerkopf, Bem. d. Veranstalter: Veranstaltungshinweise: Performance venue: Berlin\"."@en ;
+                     skos:scopeNote "Includes large-text fields in database systems that can be structured in terms of content or completely free in use."@en ,
+                                    "Umfasst Freitextfelder in Datenbanksystemen, die inhaltlich strukturiert sein können oder vollkommen frei in der Nutzung sind."@de .
+
+
+###  https://mvdk.digital/schema/mvdko/hasEncodingFormat
+mvdko:hasEncodingFormat rdf:type owl:DatatypeProperty ;
+                        rdfs:range skos:Concept .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasEnd
-:hasEnd rdf:type owl:DatatypeProperty ;
-        rdfs:comment "hat Ende"@de .
-
-
-###  https://mvdk.digital/schema/mvdko/hasEvent
-:hasEvent rdf:type owl:DatatypeProperty .
+mvdko:hasEnd rdf:type owl:DatatypeProperty ;
+             rdfs:domain mvdko:Event ;
+             rdfs:range xsd:dateTime ;
+             rdfs:label "has end"@en ,
+                        "hat Ende"@de ;
+             skos:definition "Beschreibt das zeitliche Ende einer Entität."@de ,
+                             "Describes the temporal end of an entity."@en ;
+             skos:example "Das Festival \"Theatertreffen 2022\" endete am (mvdko:hasEnd) 22.05.2022."@de ,
+                          "Die Aufführung (mvdko:Event) des \"Hamlet\" (mvdko:CreativeConcept) endet (mvdko:hasEnd) um 23:00."@de ,
+                          "The festival \"Theatertreffen 2022\" ended on (mvdko:hasEnd) 22.05.2022."@en ,
+                          "The performance of \"Hamlet\" (mvdko:CreativeConcept) starts (mvdko:hasBegin) at 19:00."@en ;
+             skos:scopeNote "Is used to describe the end of a time span, if such a temporal assignment can be made. The entity may or may not have a beginning (mvdko:hasBegin)."@en ,
+                            "Wird verwendet zur Beschreibung des Endes einer Zeitspanne, falls solch eine Zeitzuordnung vorgenommen werden kann. Die Entität kann aber muss nicht einen Beginn (mvdko:hasBegin) haben."@de .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasExtent
-:hasExtent rdf:type owl:DatatypeProperty ;
-           rdfs:comment "hat Umfang"@de .
+mvdko:hasExtent rdf:type owl:DatatypeProperty ;
+                rdfs:domain mvdko:Event ,
+                            mvdko:MediaCarrier ,
+                            mvdko:MediaResource ;
+                rdfs:range xsd:int ,
+                           xsd:string ;
+                rdfs:label "has extent"@en ,
+                           "hat Umfang"@de ;
+                skos:definition "Beschreibt den Umfang einer Entität (z.B. Menge, zeitlichen Umfang)."@de ,
+                                "Describes the scope of an entity (e.g. quantity, temporal scope)."@en ;
+                skos:example "Die Aufzeichnung \"Anarchiv#2: second hand\" (mvdko:MediaResource) hat eine Dauer (mvdko:hasExtent) von 70 Minuten."@de ,
+                             "Die DVD-Box \"Körper / S / Nobody\" (mvdko:MediaCarrier) von \"Sasha Waltz\" hat einen Umfang (mvdko:hasExtent) von 3 DVDs."@de ,
+                             "The DVD box set \"Body / S / Nobody\" (mvdko:MediaCarrier) by \"Sasha Waltz\" has a volume (mvdko:hasExtent) of 3 DVDs."@en ,
+                             "The recording \"Anarchiv#2: second hand\" (mvdko:MediaResource) has a duration (mvdko:hasExtent) of 70 minutes."@en .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasFamilyName
-:hasFamilyName rdf:type owl:DatatypeProperty ;
-               rdfs:comment "hat Familienname"@de .
+mvdko:hasFamilyName rdf:type owl:DatatypeProperty ;
+                    rdfs:domain mvdko:Person ;
+                    rdfs:range xsd:string ;
+                    rdfs:label "has family name"@en ,
+                               "hat Nachname"@de ;
+                    skos:definition "Links a Person to their Family Name."@en ,
+                                    "Verbindet eine Person mit ihrem Familiennamen."@de ;
+                    skos:example "Die natürliche Person \"Susanne Kennedy\" (mvdko:Person) trägt den Nachnamen (mvdko:hasFamilyName) \"Kennedy\"."@de ,
+                                 "Die natürliche Person mit dem Pseudonym \"Cher\" (mvdko:Person) trägt den Nachnamen (mvdko:hasFamilyName) \"Sarkisian\"."@de ,
+                                 "The natural person \"Susanne Kennedy\" (mvdko:Person) has the family name (mvdko:hasFamilyName) \"Kennedy\"."@en ,
+                                 "The natural person with the pseudonym \"Cher\" (mvdko:Person) bears the family name (mvdko:hasFamilyName) \"Sarkisian\"."@en .
+
+
+###  https://mvdk.digital/schema/mvdko/hasFunction
+mvdko:hasFunction rdf:type owl:DatatypeProperty ;
+                  rdfs:range xsd:string ,
+                             skos:Concept .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasGivenName
-:hasGivenName rdf:type owl:DatatypeProperty ;
-              rdfs:comment "hat Rufname"@de .
+mvdko:hasGivenName rdf:type owl:DatatypeProperty ;
+                   rdfs:domain mvdko:Person ;
+                   rdfs:range xsd:string ;
+                   rdfs:label "has given name"@en ,
+                              "hat Vorname"@de ;
+                   skos:definition "Links a Person to their Given Name."@en ,
+                                   "Verbindet eine Person mit ihrem Vornamen."@de ;
+                   skos:example "Die natürliche Person \"Paik Nam June\" (mvdko:Person) hat den Vornamen (mvdko:hasGivenName) \"Nam June\"."@de ,
+                                "Die natürliche Person \"Susanne Kennedy\" (mvdko:Person) hat den Vornamen (mvdko:hasGivenName) \"Susanne\"."@de ,
+                                "The natural person \"Paik Nam June\" (mvdko:person) has the given name (mvdko:hasGivenName) \"Nam June\"."@en ,
+                                "The natural person \"Susanne Kennedy\" (mvdko:person) has the given name (mvdko:hasGivenName) \"Susanne\"."@en .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasIdentifier
-:hasIdentifier rdf:type owl:DatatypeProperty .
+mvdko:hasIdentifier rdf:type owl:DatatypeProperty ;
+                    rdfs:domain owl:Thing ;
+                    rdfs:range xsd:anyURI ,
+                               xsd:string ;
+                    rdfs:label "has identifier"@en ,
+                               "hat Identifier"@de ;
+                    skos:definition "Beschreibt eine eindeutige Kennzeichung für eine Entität wie einen Medienträger, ein Ereignis, eine Person."@de ,
+                                    "Describes a unique identifier for an entity such as a Media Carrier, an Event, a Person."@en ;
+                    skos:example "Der Wikidata-Eintrag von \"Meg Stuart\" hat die URL (mvdko:hasIdentifier) \"https://www.wikidata.org/wiki/Q2367370\"."@de ,
+                                 "Die DVD \"Breath Made Visible\" (mvdko:MediaCarrier) hat die OCLC-Nummer (mvdko:hasIdentifier) \"680142453\"."@de ,
+                                 "Die DVD \"Breath Made Visible\" (mvdko:MediaCarrier) hat in der \"Amerika-Gedenkbibliothek\" die Signatur (mvdko:hasIdentifier) \"Th 420 Hal 2 a:DVD.Video\""@de ,
+                                 "The DVD \"Breath Made Visible\" (mvdko:MediaCarrier) has the OCLC number (mvdko:hasIdentifier) \"680142453\"."@en ,
+                                 "The DVD \"Breath Made Visible\" (mvdko:MediaCarrier) has the Shelf Mark (mvdko:hasIdentifier) \"Th 420 Hal 2 a:DVD.Video\" in the \"Amerika-Gedenkbibliothek\"."@en ,
+                                 "The Wikidata entry for \"Meg Stuart\" has the URL (mvdko:hasIdentifier) \"https://www.wikidata.org/wiki/Q2367370\"."@en ;
+                    skos:scopeNote "Identifier werden zur Identifizierung in einem Archiv, einer Datenumgebung oder einem Modell verwendet. Identifier können unstrukturiert, strukturiert  aufeinanderfolgend oder strukturiert nach Klassifikationen sein. Zu präferieren sind URI-Identifier."@de ,
+                                   "Identifiers are used for identification in an archive, a data environment or a model. Identifiers can be unstructured, structured sequentially or structured according to classifications. URI identifiers are preferable."@en .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasKeyword
-:hasKeyword rdf:type owl:DatatypeProperty .
+mvdko:hasKeyword rdf:type owl:DatatypeProperty ;
+                 rdfs:range skos:Concept .
+
+
+###  https://mvdk.digital/schema/mvdko/hasLabel
+mvdko:hasLabel rdf:type owl:DatatypeProperty ;
+               rdfs:domain owl:Thing ;
+               rdfs:range rdf:langString ;
+               rdfs:label "has label"@en ,
+                          "hat Label"@de ;
+               skos:definition "Beschreibt den Bezeichner einer Entität."@de ,
+                               "Describes the label of an entity."@en ;
+               skos:example "Der Autor des Stückes (mvdko:Person) trägt den Namen (mvdko:hasLabel) \"William Shakespeare\"."@de ,
+                            "Eine Komödie (mvdko:CreativeConcept) von \"Shakespeare\" trägt den Titel (mvdko:hasLabel) \"Much ado abouth nothing\"."@de ,
+                            "One of \"Shakespeare\"'s comedies (mvdko:CreativeConcept)  has the title (mvdko:hasLabel) \"Much ado abouth nothing\"."@en ,
+                            "The author (mvdko:Person) of the play is called (mvdko:hasLabel) \"William Shakespeare\"."@en ;
+               skos:scopeNote "If more specific information is available, (mvdko:hasName) or (mvdko:hasTitle) should be used to describe the label (mvdko:hasLabel)."@en ,
+                              "Wenn genauere Angaben bekannt sind, sollte (mvdko:hasName) oder (mvdko:hasTitle) verwendet werden."@de .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasLanguage
-:hasLanguage rdf:type owl:DatatypeProperty .
+mvdko:hasLanguage rdf:type owl:DatatypeProperty ;
+                  rdfs:range skos:Concept .
 
 
-###  https://mvdk.digital/schema/mvdko/hasLocation
-:hasLocation rdf:type owl:DatatypeProperty .
+###  https://mvdk.digital/schema/mvdko/hasLicense
+mvdko:hasLicense rdf:type owl:DatatypeProperty ;
+                 rdfs:domain mvdko:CreativeConcept ,
+                             mvdko:MediaResource ;
+                 rdfs:range xsd:anyURI ;
+                 rdfs:label "has license"@en ,
+                            "hat Lizenz"@de ;
+                 skos:definition "Links an entity like a Media Resource or a Creative Concept to the legal licenses under which it can be used."@en ,
+                                 "Verbindet eine Entität wie eine Medienressource oder ein Kreatives Konzept mit den rechtlichen Lizenzen, unter der diese genutzt werden können."@de ;
+                 skos:example "Das Foto \"Mary Wigman, 1959 (links) mit der Schülerin Nahami Abbell\" (mvdko:MediaResource) des Fotografen \"Klaus Schütz\" steht unter der Lizenz (mvdko:hasLicense) \"CC BY-SA 3.0 de\"."@de ,
+                              "Das Musikstück \"Open Goldberg Variations\" (mvdko:CreativeConcept) steht unter der Creative-Commons-Lizenz (mvdko:hasLicense) \"CC0\"."@de ,
+                              "The photograph \"Mary Wigman, 1959 (links) mit der Schülerin Nahami Abbell\" (mvdko:MediaResource) by photographer \"Klaus Schütz\" is licensed under (mvdko:hasLicense) \"CC BY-SA 3.0 de\"."@en ,
+                              "The project \"Open Goldberg Variations\" (mvdko:CreativeConcept) is licensed under (mvdko:hasLicense) the Creative Commons license \"CC0\"."@en ;
+                 skos:scopeNote "Licenses can be free text or structured, like Creative Commons licenses."@en ,
+                                "Lizenzen können freitextlich oder strukturiert sein, wie die Creative-Commons-Lizenzen."@de .
 
 
-###  https://mvdk.digital/schema/mvdko/hasLocationOfPublication
-:hasLocationOfPublication rdf:type owl:DatatypeProperty .
-
-
-###  https://mvdk.digital/schema/mvdko/hasMediaCarrier
-:hasMediaCarrier rdf:type owl:DatatypeProperty .
-
-
-###  https://mvdk.digital/schema/mvdko/hasMedium
-:hasMedium rdf:type owl:DatatypeProperty .
-
-
-###  https://mvdk.digital/schema/mvdko/hasMediumChannel
-:hasMediumChannel rdf:type owl:DatatypeProperty .
-
-
-###  https://mvdk.digital/schema/mvdko/hasMediumDate
-:hasMediumDate rdf:type owl:DatatypeProperty .
-
-
-###  https://mvdk.digital/schema/mvdko/hasMediumEncoding
-:hasMediumEncoding rdf:type owl:DatatypeProperty .
-
-
-###  https://mvdk.digital/schema/mvdko/hasMediumLength
-:hasMediumLength rdf:type owl:DatatypeProperty ;
-                 rdfs:comment "Könnte diese Property ohne Verlust mit :hasTemporalExtent ersetzt werden (ursprünglich angedacht, existiert bereits)? , MW" .
-
-
-###  https://mvdk.digital/schema/mvdko/hasMediumRegionalCode
-:hasMediumRegionalCode rdf:type owl:DatatypeProperty .
-
-
-###  https://mvdk.digital/schema/mvdko/hasMediumTelevisionStandard
-:hasMediumTelevisionStandard rdf:type owl:DatatypeProperty .
+###  https://mvdk.digital/schema/mvdko/hasMediumInformation
+mvdko:hasMediumInformation rdf:type owl:DatatypeProperty ;
+                           rdfs:domain mvdko:MediaCarrier ,
+                                       mvdko:MediaResource ;
+                           rdfs:range xsd:string ;
+                           rdfs:label "has medium information"@en ,
+                                      "hat Medieninformation"@de ;
+                           skos:definition "Beschreibt übergeordnete oder gemischte Informationen bezogen auf die Medialität eines Medienträgers oder einer Medienressource."@de ,
+                                           "Describes superordinate or mixed information related to the mediality of a Media Carrier or Media Resource."@en ;
+                           skos:example "Das Videodokument \"Durch die Nacht mit Christoph Schlingensief und Michel Friedman\" (mvdko:MediaResource) ist mit den Angaben zum Medium (mvdko:hasMediumInformation) \"53min-3DVDs / Region 7, DE+EN\" beschrieben."@de ,
+                                        "The video document \"Durch die Nacht mit Christoph Schlingensief und Michel Friedman\" (mvdko:MediaResource) is described with the information about the medium (mvdko:hasMediumInformation) \"53min-3DVDs / Region 7, DE+EN\"."@en ;
+                           skos:scopeNote "Can be used, if specific information (like (mvdko:hasPublicationChannel), (mvdko:hasEncodingFormat), (mvdko:hasRegionalCode), (mvdko:hasTelevisionStandard)) cannot be provided explicitly."@en ,
+                                          "Kann genutzt werden, wenn spezifischere Angaben (wie (mvdko:hasPublicationChannel), (mvdko:hasEncodingFormat), (mvdko:hasRegionalCode), (mvdko:hasTelevisionStandard)) nicht explizit gemacht werden können."@de .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasName
-:hasName rdf:type owl:DatatypeProperty ;
-         rdfs:comment "hat Name" .
+mvdko:hasName rdf:type owl:DatatypeProperty ;
+              rdfs:subPropertyOf mvdko:hasLabel ;
+              rdfs:domain mvdko:Agent ,
+                          mvdko:Organization ,
+                          mvdko:Person ;
+              rdfs:range rdf:langString ;
+              rdfs:label "has name"@en ,
+                         "hat Name"@de ;
+              skos:definition "Links an entity with its name."@en ,
+                              "Verbindet eine Entität mit ihrem Namen."@de ;
+              skos:example "A fictional character (mvdko:Agent) from \"Shakespeare\"'s \"A Midsummer Night’s Dream\" has the name (mvdko:hasName) \"Puck\"."@en ,
+                           "Der Autor des Stückes (mvdko:Person) trägt den Namen (mvdko:hasName) \"William Shakespeare\"."@de ,
+                           "Ein fiktives Wesen (mvdko:Agent) aus \"Shakespeare\"'s \"Sommernachtstraum\" heißt (mvdko:hasName) \"Puck\"."@de ,
+                           "The author (mvdko:Person) of the play is called (mvdko:hasName) \"William Shakespeare\"."@en ;
+              skos:scopeNote "Includes amongst others Agents, animals and fictional characters."@en ,
+                             "Umfasst unter anderem Akteur*innnen, Tiere, fiktive Wesen."@de .
 
 
-###  https://mvdk.digital/schema/mvdko/hasPart
-:hasPart rdf:type owl:DatatypeProperty .
+###  https://mvdk.digital/schema/mvdko/hasPhysicalExtent
+mvdko:hasPhysicalExtent rdf:type owl:DatatypeProperty ;
+                        rdfs:subPropertyOf mvdko:hasExtent ;
+                        rdfs:domain mvdko:MediaCarrier ;
+                        rdfs:range rdf:langString ,
+                                   xsd:int ;
+                        rdfs:label "has physical extent"@en ,
+                                   "hat physischen Umfang"@de ;
+                        skos:definition "Links an entity to its Extent, size and/or perimeter."@en ,
+                                        "Verbindet eine Entität mit ihrer Ausdehnung, ihrer Größe und/oder ihrem Umfang."@de ;
+                        skos:example "Die DVD-Box \"Körper / S / Nobody\" (mvdko:MediaCarrier) von \"Sasha Waltz\" hat einen Umfang (mvdko:hasPhysicalExtent) von 3 DVDs."@de ,
+                                     "The DVD box set \"Body / S / Nobody\" (mvdko:MediaCarrier) by \"Sasha Waltz\" has a volume (mvdko:hasPhysicalExtent) of 3 DVDs."@en .
 
 
-###  https://mvdk.digital/schema/mvdko/hasPlaceOfOccurrence
-:hasPlaceOfOccurrence rdf:type owl:DatatypeProperty .
+###  https://mvdk.digital/schema/mvdko/hasPosition
+mvdko:hasPosition rdf:type owl:DatatypeProperty ;
+                  rdfs:domain mvdko:MediaCarrier ;
+                  rdfs:range xsd:int ,
+                             xsd:string ;
+                  rdfs:label "has position"@en ,
+                             "hat Position"@de ;
+                  skos:definition "Beschreibt als Metaprädikat die zeitliche Startposition einer Aufzeichnung auf einem Medienträger."@de ,
+                                  "Describes as a metapredicate the temporal starting position of a recording on a Media Carrier."@en ;
+                  skos:example "Die Medienressource \"Hamlet\" (mvdko:MediaResource) auf der VHS-Kassette (mvdko:MediaCarrier) beginnt (mvdko:hasPosition) bei Minute 40."@de ,
+                               "The Media Resource \"Hamlet\" (mvdko:MediaResource) starts at (mvdko:hasPosition) minute 40 on the VHS tape (mvdko:MediaCarrier)."@en .
 
 
-###  https://mvdk.digital/schema/mvdko/hasPlaceOfResidence
-:hasPlaceOfResidence rdf:type owl:DatatypeProperty .
+###  https://mvdk.digital/schema/mvdko/hasPublicationChannel
+mvdko:hasPublicationChannel rdf:type owl:DatatypeProperty ;
+                            rdfs:range skos:Concept .
 
 
-###  https://mvdk.digital/schema/mvdko/hasPyhsicalExtent
-:hasPyhsicalExtent rdf:type owl:DatatypeProperty .
-
-
-###  https://mvdk.digital/schema/mvdko/hasRecordingOf
-:hasRecordingOf rdf:type owl:DatatypeProperty .
-
-
-###  https://mvdk.digital/schema/mvdko/hasRights
-:hasRights rdf:type owl:DatatypeProperty .
+###  https://mvdk.digital/schema/mvdko/hasRegionalCode
+mvdko:hasRegionalCode rdf:type owl:DatatypeProperty ;
+                      rdfs:range skos:Concept .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasRightsHolder
-:hasRightsHolder rdf:type owl:DatatypeProperty .
+mvdko:hasRightsHolder rdf:type owl:DatatypeProperty ;
+                      rdfs:range xsd:string .
+
+
+###  https://mvdk.digital/schema/mvdko/hasRightsInformation
+mvdko:hasRightsInformation rdf:type owl:DatatypeProperty ;
+                           rdfs:domain mvdko:CreativeConcept ,
+                                       mvdko:MediaCarrier ,
+                                       mvdko:MediaResource ;
+                           rdfs:range xsd:string ;
+                           rdfs:comment "mvdk empfiehlt: Falls klare Lizenzstruktur vorliegt, sollte (mvdko:hasLicense) genutzt werden."@de ,
+                                        "mvdk recommends: If explicit license structure is available, use (mvdko:hasLicense)."@en ;
+                           rdfs:label "has rights information"@en ,
+                                      "hat Rechteangabe"@de ;
+                           skos:definition "Links a Media Resource, Media Carrier or Creative Concept to a rights information."@en ,
+                                           "Verbindet eine Medienressource, einen Medienträger oder ein Kreatives Konzept mit einer Rechteangabe."@de ;
+                           skos:example "Die Fotografie \"Mary Wigman tanzt 'Abschied und Dank'\" (mvdko:MediaResource) hat in der \"Deutschen Digitalen Bibliothek\" die Rechteangabe (mvdko:hasRightsInformation) \"Rechte Vorbehalten - Freier Zugang\"."@de ,
+                                        "The photograph \"Mary Wigman tanzt 'Abschied und Dank'\" (mvdko:MediaResource) in \"Deutsche Digitale Bibliothek\" is linked to the rights information (mvdko:hasRightsInformation) \"Rechte Vorbehalten - Freier Zugang\"."@en .
+
+
+###  https://mvdk.digital/schema/mvdko/hasRole
+mvdko:hasRole rdf:type owl:DatatypeProperty ;
+              rdfs:range xsd:string ,
+                         skos:Concept .
+
+
+###  https://mvdk.digital/schema/mvdko/hasShelfMark
+mvdko:hasShelfMark rdf:type owl:DatatypeProperty ;
+                   rdfs:subPropertyOf mvdko:hasIdentifier ;
+                   rdfs:domain mvdko:MediaCarrier ,
+                               mvdko:MediaResource ;
+                   rdfs:range xsd:string ;
+                   rdfs:label "has shelf mark"@en ,
+                              "hat Signatur"@de ;
+                   skos:definition "Beschreibt einen zur Identifizierung von Objekten vergebenen eindeutigen Kennzeichner."@de ,
+                                   "Describes a unique identifier assigned to distinguish objects."@en ;
+                   skos:example "Der Film \"Endstation Amerika\" (mvdko:MediaRessource) trägt die Signatur 4050 (mvdko:hasShelfMark) in der \"Universitätsbibliothek Gießen\"."@de ,
+                                "Die DVD \"Breath made visible\" (mvdko:MediaRessource) hat in der \"Amerika-Gedenkbibliothek\" die Signatur (mvdko:hasIdentifier) \"Th 420 Hal 2 a:DVD.Video\"."@de ,
+                                "The DVD \"Breath Made Visible\" (mvdko:MediaCarrier) has the Shelf Mark (mvdko:hasIdentifier) \"Th 420 Hal 2 a:DVD.Video\" in the \"Amerika-Gedenkbibliothek\"."@en ,
+                                "The film \"Endstation Amerika\" (mvdko:MediaRessource) bears the shelf mark 4050 (mvdko:hasShelfMark) in the \"Universitätsbibliothek Gießen\"."@en ;
+                   skos:scopeNote "Is assigned within the framework of a library, media library or archive collection. It is partly developed individually, partly according to classification systems."@en ,
+                                  "Wird im Rahmen eines Bibliotheks-, Mediatheks- oder Archivbestandes vergeben. Ist teilweise indivduell entwickelt, teilweise nach Verbundsklassifikationssystemen."@de .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasSource
-:hasSource rdf:type owl:DatatypeProperty .
-
-
-###  https://mvdk.digital/schema/mvdko/hasSubject
-:hasSubject rdf:type owl:DatatypeProperty .
+mvdko:hasSource rdf:type owl:DatatypeProperty ;
+                rdfs:domain mvdko:Event ,
+                            mvdko:MediaResource ;
+                rdfs:range xsd:string ;
+                rdfs:comment "Diese Property ist eine Meta- bzw. Reification-Property zur Annotation von anderen Statements. Für die Verwendung dieser Relation ist der Einsatz von Reifikation oder RDF-Star zur Spezifizierung von Relationen erforderlich."@de ,
+                             "This property is a meta- or reification-property for annotating other statements. The use of this relation requires the use of reification or RDF-Star to specify relations."@en ;
+                rdfs:label "has source"@en ,
+                           "hat Quelle"@de ;
+                skos:definition "Links a description to an entity, for example a Media Resource or an Event, with a source reference of that description."@en ,
+                                "Verbindet eine Beschreibung zu einer Entität, zum Beispiel einer Medienressource oder einem Ereignis, mit einer Quellenangabe dieser Beschreibung."@de ;
+                skos:example "Die Beschreibung zum Video \"MCB-DV-8002\" (mvdko:MediaResource) hat die Quellenangabe (mvdko:hasSource) \"msb\"."@de ,
+                             "The description to the video \"MCB-DV-8002\" (mvdko:MediaResource) has the source (mvdko:hasSource) \"msb\"."@en .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasSubtitle
-:hasSubtitle rdf:type owl:DatatypeProperty ;
-             rdfs:comment "Label ist zu diskutieren. Wie trennen wir Untertitel im Video von \"Untertitel\" als zweiter untergeordneter \"Titel\""@de ,
-                          "hat Untertitel" .
+mvdko:hasSubtitle rdf:type owl:DatatypeProperty ;
+                  rdfs:domain owl:Thing ,
+                              mvdko:CreativeConcept ,
+                              mvdko:Event ,
+                              mvdko:MediaResource ;
+                  rdfs:range xsd:string ;
+                  rdfs:comment "Subtitle in this case refers to a further title of an entity such as a Media Resource. It is not to be understood as the text that is displayed on audiovisual material in order to describe the visual and audible content."@en ,
+                               "Untertitel meint hier den weiteren Titel einer Entität wie einer Medienressource und nicht den Text, der auf audiovisuellen Material zu Sehendes oder zu Hörendes genauer beschreibt."@de ;
+                  rdfs:label "has Subtitle"@en ,
+                             "hat Untertitel"@de ;
+                  skos:definition "Assigns a subtitle to an entity."@en ,
+                                  "Weist einer Entität einen Untertitel zu."@de ;
+                  skos:example "Die Reportage \"Von Wundern und Superhelden\" (mvdko:CreativeConcept) trägt den Untertitel (mvdko:hasSubtitle) \"50 Jahre Stuttgarter Ballett\"."@de ,
+                               "The feature \"Von Wundern und Superhelden\" (mvdko:CreativeConcept) has the subtitle (mvdko:hasSubtitle) \"50 Jahre Stuttgarter Ballett\"."@en .
+
+
+###  https://mvdk.digital/schema/mvdko/hasTelevisionStandard
+mvdko:hasTelevisionStandard rdf:type owl:DatatypeProperty ;
+                            rdfs:range skos:Concept .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasTemporalExtent
-:hasTemporalExtent rdf:type owl:DatatypeProperty .
+mvdko:hasTemporalExtent rdf:type owl:DatatypeProperty ;
+                        rdfs:subPropertyOf mvdko:hasExtent ;
+                        rdfs:domain mvdko:Event ,
+                                    mvdko:MediaResource ;
+                        rdfs:range xsd:int ;
+                        rdfs:label "has temporal extent"@en ,
+                                   "hat zeitlichen Umfang"@de ;
+                        skos:definition "Links an entity such as a Media Resource or Event to its duration."@en ,
+                                        "Verbindet eine Entität wie eine Medienressource oder ein Ereignis mit ihrer Dauer."@de ;
+                        skos:example "Die Aufzeichnung \"Anarchiv#2: second hand\" (mvdko:MediaResource) hat eine Dauer (mvdko:hasTemporalExtent) von 70 Minuten."@de ,
+                                     "Die Inszenierung \"Dionysos Stadt\" (mvdko:CreativeConcept) an den \"Münchner Kammerspielen\" hat eine Spieldauer (mvdko:hasTemporalExtent) von 10 Stunden."@de ,
+                                     "The recording \"Anarchiv#2: second hand\" (mvdko:MediaResource) has a duration (mvdko:hasTemporalExtent) of 70 minutes."@en ,
+                                     "The stage production \"Dionysos Stadt\" (mvdko:CreativeConcept) at the \"Münchner Kammerspiele\" has a playing time (mvdko:hasTemporalExtent) of 10 hours."@en ;
+                        skos:scopeNote "It can be used to define the time of an Event, but also to describe the temporal scope of a Media Resource."@en ,
+                                       "Kann zur zeitlichen Eingrenzung eines Ereignisses aber auch für die Beschreibung des zeitlichen Umfangs einer Medienressource verwendet werden."@de .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasTitle
-:hasTitle rdf:type owl:DatatypeProperty ;
-          rdfs:comment "hat Titel"@de .
+mvdko:hasTitle rdf:type owl:DatatypeProperty ;
+               rdfs:subPropertyOf mvdko:hasLabel ;
+               rdfs:domain mvdko:CreativeConcept ,
+                           mvdko:MediaResource ;
+               rdfs:range rdf:langString ;
+               rdfs:label "has title"@en ,
+                          "hat Titel"@de ;
+               skos:definition "Links an entity with its title."@en ,
+                               "Verbindet eine Entität mit einem Titel."@de ;
+               skos:example "Die audiovisuelle Ressource (mvdko:MediaResource) mit der Signatur \"Th 420 Hal 2 a:DVD.Video\" hat den Titel (mvdko:hasTitle) \"Breath Made Visible\"."@de ,
+                            "Eine Komödie (mvdko:CreativeConcept) von \"Shakespeare\" trägt den Titel (mvdko:hasTitle) \"Much ado abouth nothing\"."@de ,
+                            "One of \"Shakespeare\"'s comedies (mvdko:CreativeConcept) has the title (mvdko:hasTitle) \"Much ado abouth nothing\"."@en ,
+                            "The Media Resource (mvdko:MediaResource) with the shelf mark \"Th 420 Hal 2 a:DVD.Video\" has the title (mvdko:hasTitle) \"Breath Made Visible\"."@en .
 
 
 ###  https://mvdk.digital/schema/mvdko/hasType
-:hasType rdf:type owl:DatatypeProperty .
-
-
-###  https://mvdk.digital/schema/mvdko/hasVersion
-:hasVersion rdf:type owl:DatatypeProperty .
-
-
-###  https://mvdk.digital/schema/mvdko/isBasedOn
-:isBasedOn rdf:type owl:DatatypeProperty .
+mvdko:hasType rdf:type owl:DatatypeProperty ;
+              rdfs:range xsd:normalizedString ,
+                         skos:Concept .
 
 
 #################################################################
@@ -550,187 +699,290 @@ In aktiver Bearbeitung."""@de .
 #################################################################
 
 ###  https://mvdk.digital/schema/mvdko/Agent
-:Agent rdf:type owl:Class ;
-       rdfs:label "Agent"@en ,
-                  "Akteur*in"@de .
+mvdko:Agent rdf:type owl:Class ;
+            rdfs:subClassOf owl:Thing ;
+            rdfs:label "Akteur*in"@de ,
+                       "agent"@en ;
+            skos:definition "Agents are (currently, historically or prospectively) entities who are capable of acting."@en ,
+                            "Akteur*innen sind (derzeit, historisch oder zukünftig) handlungsfähige Entitäten."@de ;
+            skos:example "Das Künstler*innenkollektiv \"Rimini Protokoll\" (mvdko:Agent)"@de ,
+                         "Der \"Fachinformationsdienst Darstellende Kunst\" (mvdko:Agent)"@de ,
+                         "Die natürliche Person \"Susanne Kennedy\" (mvdko:Agent)"@de ,
+                         "The \"Fachinformationsdienst Darstellende Kunst\" (mvdko:Agent)"@en ,
+                         "The artist collective \"Rimini Protokoll\" (mvdko:Agent)"@en ,
+                         "The natural Person \"Susanne Kennedy\" (mvdko:Agent)"@en ;
+            skos:scopeNote "Diese Klasse dient sowohl als Oberklasse für genauer definierte Akteur*innen wie Einzelpersonen und Individuen als auch Organisationen/Körperschaften wie Personengruppen, Kollektive, Ensembles. Diese Klasse umfasst alle Akteur*innen."@de ,
+                           "This class serves both as super class for more precisely defined Agents such as individual persons as well as for Organizations/Corporate Bodies such as groups of persons, collectives, ensembles. This class comprises all Agents."@en .
 
 
 ###  https://mvdk.digital/schema/mvdko/CreativeConcept
-:CreativeConcept rdf:type owl:Class ;
-                 rdfs:label "Creative Concept"@en ,
-                            "Kreatives Konzept"@de ;
-                 <http://www.w3.org/2004/02/skos/core#definition> "Klasse für verschiedene Formen von künstlerischen und/oder kreativen Konzepten wie klassischen Schriftwerken, Bühnenwerken, Inszenierungen, Produktionen, Performancekonzepten, etc. im Rahmen der Domäne der Darstellenden Künste."@de .
+mvdko:CreativeConcept rdf:type owl:Class ;
+                      rdfs:subClassOf owl:Thing ;
+                      rdfs:label "Kreatives Konzept"@de ,
+                                 "creative concept"@en ;
+                      skos:comment "Genauere Spezifikationen von Kreativen Konzepten können durch (mvdko:hasType) mit Vokabularbegriffen (skos:Concept) vorgenommen werden. Die Urheber*innenschaft des Kreativen Konzepts muss nicht bekannt sein. Kreative Konzepte müssen nicht verwirklicht werden. Sowohl das Werk als auch die Umsetzung in einer Inszenierung sind Kreative Konzepte. Die Aufführung selbst ist ein Ereignis."@de ,
+                                   "More detailed specifications of Creative Concepts can be made (mvdko:hasType) by using vocabulary terms (skos:Concept). The authorship of Creative Concepts is no mandatory property. Creative Concepts do not have to be realized. Both the work and its realization in a stage production are Creative Concepts. The performance itself is an Event."@en ;
+                      skos:definition "Creative Concepts comprise ideas, plans and concepts that serve as creative basis of Events, Media Resources or other entities."@en ,
+                                      "Kreative Konzepte umfassen Ideen, Pläne und Konzeptionen, die als kreative Grundlage von Ereignissen, Medienressourcen oder anderen Entitäten dienen."@de ;
+                      skos:example "\"Hermann Beil's\" stage production of the playlet \"Claus Peymann kauft sich eine Hose und geht mit mir essen\" (mvdko:CreativeConcept) by \"Thomas Bernhard\" at \"Schauspielhaus Bochum\"."@en ,
+                                   "\"Hermann Beils\" Inszenierung des Dramoletts \"Claus Peymann kauft sich eine Hose und geht mit mir essen\" (mvdko:CreativeConcept) von \"Thomas Bernhard\" am \"Schauspielhaus Bochum\"."@de ,
+                                   "Das Tanzstück \"Danzon\" (mvdko:CreativeConcept) von \"Pina Bausch\"."@de ,
+                                   "Die Tragödie \"Hamlet\" (mvdko:CreativeConcept) von \"William Shakespeare\"."@de ,
+                                   "The dance production \"Danzon\" (mvdko:CreativeConcept) by \"Pina Bausch\"."@en ,
+                                   "The tragedy \"Hamlet\" (mvdko:CreativeConcept) by \"William Shakespeare\"."@en ;
+                      skos:scopeNote "Die Klasse umfasst Konzepte wie Theatertexte, Bühnenwerke, Inszenierungen, Produktionen, Performancekonzepte."@de ,
+                                     "The class comprises concepts like theater texts, dramatic works, (stage) productions, performance concepts."@en .
 
 
 ###  https://mvdk.digital/schema/mvdko/Event
-:Event rdf:type owl:Class ;
-       rdfs:label "Ereignis"@de ,
-                  "Event"@en .
-
-
-###  https://mvdk.digital/schema/mvdko/Location
-:Location rdf:type owl:Class ;
-          rdfs:label "Ort"@de .
+mvdko:Event rdf:type owl:Class ;
+            rdfs:subClassOf owl:Thing ;
+            rdfs:comment "mvdk empfiehlt, dass genauere Spezifikationen von Ereignissen durch (mvdko:hasType) mit Vokabularbegriffen (skos:Concept) vorgenommen werden."@de ,
+                         "mvdk recommends to make more detailed specifications of Events by (mvdko:hasType) through using vocabulary terms (skos:Concept)."@en ;
+            rdfs:label "Ereignis"@de ,
+                       "event"@en ;
+            skos:definition "Ereignisse umfassen Geschehnisse, die ort- und zeitgebunden stattfinden."@de ,
+                            "Events involve incidents that happen bound to place and time."@en ;
+            skos:example "A performance of the stage production \"Faust\" (mvdko:Event) by \"Einar Schleef\" performed at \"Schillertheater\"."@en ,
+                         "Die 11. Ausgabe des Festivals \"Theater der Welt\" (mvdko:Event) in Halle."@de ,
+                         "Eine Aufführung der Inszenierung \"Faust\" (mvdko:Event) von \"Einar Schleef\" am \"Schillertheater\"."@de ,
+                         "The 11th edition of the \"Theater der Welt\" (mvdko:Event) festival in Halle."@en ;
+            skos:scopeNote "Comprises any kind of Events such as performances, conferences, workshops. Not all properties of an Event must be known. One or several Agents can actively be part of an Event. Events can be real or fictional. Events can be part of other events."@en ,
+                           "Umfasst jegliche Arten von Ereignissen wie Aufführungen, Konferenzen, Workshops. Nicht alle Eigenschaften eines Ereignisses müssen bekannt sein. An Ereignissen können ein*e oder mehrere Akteur*innen aktiv beteiligt sein. Ereignisse können real oder fiktional sein. Ereignisse können Teilereignisse haben."@de .
 
 
 ###  https://mvdk.digital/schema/mvdko/MediaCarrier
-:MediaCarrier rdf:type owl:Class ;
-              rdfs:label "Media Carrier"@en ,
-                         "Medienträger"@de .
+mvdko:MediaCarrier rdf:type owl:Class ;
+                   rdfs:subClassOf owl:Thing ;
+                   rdfs:label "Medienträger"@de ,
+                              "media carrier"@en ;
+                   skos:definition "Media Carriers are physical or digital objects that are carrier of one or more Media Resources."@en ,
+                                   "Medienträger sind physische oder digitale Objekte, die Träger einer oder mehrerer Medienressourcen sind."@de ;
+                   skos:example "A VHS videocassette (mvdko:MediaCarrier) saving a recording (mvdko:MediaResource) of an Event."@en ,
+                                "A file (mvdko:MediaCarrier) that holds the recording of a TV documentation about modern dance in Germany (mvdko:MediaResource)."@en ,
+                                "Eine Datei (mvdko:MediaCarrier), die die Aufzeichnung einer TV-Dokumentation über den Modernen Tanz in Deutschland (mvdko:MediaResource) abbildet."@de ,
+                                "Eine VHS-Videokassette (mvdko:MediaCarrier) auf der eine Aufzeichnung (mvdko:MediaResource) einer Veranstaltung gespeichert ist."@de ;
+                   skos:scopeNote "A Media Carrier can hold several Media Resources."@en ,
+                                  "Ein Medienträger kann mehrere Medienressourcen beinhalten."@de .
 
 
 ###  https://mvdk.digital/schema/mvdko/MediaResource
-:MediaResource rdf:type owl:Class ;
-               rdfs:label "Media Resource"@en ,
-                          "Medienressource"@de .
+mvdko:MediaResource rdf:type owl:Class ;
+                    rdfs:subClassOf owl:Thing ;
+                    rdfs:label "Medienressource"@de ,
+                               "media resource"@en ;
+                    skos:definition "Media Resources are immaterial information units that are generally represented on one ore more Media Carriers."@en ,
+                                    "Medienressourcen sind immaterielle Informationseinheiten, die in der Regel auf einem oder mehreren Medienträgern repräsentiert werden."@de ;
+                    skos:example "An ORF news segment in the program \"Oberösterreich heute\" (mvdko:MediaResource) about the topic \"70 Jahre Amateurtheater\" (skos:Concept)."@en ,
+                                 "Die filmische Dokumentation \"Breath Made Visible\" (mvdko:MediaResource) über die Performerin \"Anna Halprin\" (mvdko:Person)."@de ,
+                                 "Ein ORF-Nachrichtenbeitrag in der Sendung \"Oberösterreich heute\" (mvdko:MediaResource) über das Thema \"70 Jahre Amateurtheater\" (skos:Concept)."@de ,
+                                 "The documentary film \"Breath Made Visible\" (mvdko:MediaResource) about the performer \"Anna Halprin\"."@en ;
+                    skos:scopeNote "Die gleiche Medienressource kann von verschiedenen Medienträgern repräsentiert werden. Ein Medienträger kann mehrere Medienressourcen beinhalten. Eine Medienressource kann Teil einer anderen Medienressource sein. Medienressourcen können Aufzeichnungen von Aufführungen, Dokumentationen, Spielfilme etc. enthalten."@de ,
+                                   "The same Media Resource can be represented by different Media Carriers. A Media Carrier can hold several Media Resources. A Media Resource can be part of another Media Resource. Media Resources can hold recordings of performances, documentary films, motion pictures, etc."@en .
 
 
 ###  https://mvdk.digital/schema/mvdko/Organization
-:Organization rdf:type owl:Class ;
-              rdfs:subClassOf :Agent ;
-              rdfs:label "Organisation"@de ,
-                         "Organization"@en .
+mvdko:Organization rdf:type owl:Class ;
+                   rdfs:subClassOf mvdko:Agent ;
+                   rdfs:label "Organisation"@de ,
+                              "organization"@en ;
+                   skos:definition "Organisationen sind Gruppierungen von Akteur*innen wie Personen oder weiteren Organisationen, die Handlungen ausführen und Zwecke verfolgen können."@de ,
+                                   "Organizations are groups of Agents such as persons or other organizations that perform actions and can pursue a purpose."@en ;
+                   skos:example "Das Künstler*innenkollektiv \"Rimini Protokoll\" (mvdko:Organization)"@de ,
+                                "Der \"Fachinformationsdienst Darstellende Kunst\" (mvdko:Organization)"@de ,
+                                "The \"Fachinformationsdienst Darstellende Kunst\" (mvdko:Organization)"@en ,
+                                "The artist collective \"Rimini Protokoll\" (mvdko:Organization)"@en ;
+                   skos:scopeNote "Generic term for any kind of grouping of Agents and artistic groups such as collectives, ensembles, companies, artist groups as well as archives, public institutions, corporations, political parties, associations or other corporate bodies."@en ,
+                                  "Oberbegriff für jegliche Verbünde von Akteur*innen und künstlerischen Verbünden wie Kollektiven, Ensembles, Companies, Künstler*innengruppen sowie Archiven, öffentlichen Institutionen, Unternehmen, politischen Parteien, Interessenverbänden oder anderen Körperschaften."@de .
 
 
 ###  https://mvdk.digital/schema/mvdko/Person
-:Person rdf:type owl:Class ;
-        rdfs:subClassOf :Agent ;
-        rdfs:label "Person"@de ,
-                   "Person"@en .
+mvdko:Person rdf:type owl:Class ;
+             rdfs:subClassOf mvdko:Agent ;
+             rdfs:label "Person"@de ,
+                        "person"@en ;
+             skos:definition "A person is an individual Agent."@en ,
+                             "Personen sind individuelle Akteur*innen."@de ;
+             skos:example "Die fiktive Person \"Max Mustermann\" (mvdko:Person)"@de ,
+                          "Die natürliche Person \"Queen Elizabeth II\" (mvdko:Person), die nicht mehr lebt."@de ,
+                          "Die natürliche Person \"Susanne Kennedy\" (mvdko:Person)"@de ,
+                          "The fictional Person \"Max Mustermann\" (mvdko:Person)"@en ,
+                          "The natural Person \"Queen Elizabeth II\" (mvdko:Person) who is no longer alive."@en ,
+                          "The natural Person \"Susanne Kennedy\" (mvdko:Person)"@en ;
+             skos:scopeNote "A Person that lives (currently, historically or prospectively). A Person can be fictional or real."@en ,
+                            "Personen können derzeit, historisch oder zukünftig leben, sie können real oder fiktiv sein."@de .
 
 
-###  https://mvdk.digital/schema/mvdko/RightsStatement
-:RightsStatement rdf:type owl:Class ;
-                 rdfs:label "Rechteangabe"@de ,
-                            "Rights Statement"@en .
-
-
-###  https://mvdk.digital/schema/mvdko/TimeSpan
-:TimeSpan rdf:type owl:Class ;
-          rdfs:label "Timespan"@en ,
-                     "Zeitraum"@de .
+###  https://mvdk.digital/schema/mvdko/Place
+mvdko:Place rdf:type owl:Class ;
+            rdfs:subClassOf owl:Thing ;
+            rdfs:label "Ort"@de ,
+                       "place"@en ;
+            skos:definition "Orte sind räumlich abgrenzbare Bereiche."@de ,
+                            "Places are areas that can be delimited spatially."@en ;
+            skos:example "Das Theater \"Schillertheater\" in Berlin (mvdko:Place)."@de ,
+                         "Die Stadt \"Berlin\" (mvdko:Place)."@de ,
+                         "Die fiktive Stadt \"Vineta\" (mvdko:Place)."@de ,
+                         "The city of \"Berlin\" (mvdko:Place)."@en ,
+                         "The fictional city \"Vineta\" (mvdko:Place)."@en ,
+                         "The theater \"Schillertheater\" in Berlin (mvdko:Place)."@en ;
+            skos:scopeNote "Orte können Teilorte haben. Orte können derzeit, historisch oder zukünftig existieren. Fiktive Orte sind nicht ausgeschlossen."@de ,
+                           "Places can be part of other places. Places exist currently, historically or prospectively. Fictional places are included."@en .
 
 
 #################################################################
 #    Annotations
 #################################################################
 
-:hasContributor rdfs:label "has Contributor"@en ,
-                           "hat Mitwirkende*n"@de .
+mvdko:hasAlternativeLabel skos:scopeNote "Entities can be amongst others Agents and Creative Concepts."@en ;
+                          skos:example "The comedy (mvdko:CreativeConcept) \"Twelfth Night\" (mvdko:hasLabel) by \"Shakespeare\" (mvdko:hasContributor) has the alternative label \"What You Will\" (mvdko:hasAlternativeLabel)."@en ;
+                          skos:definition "Verbindet eine Entität mit einem alternativen oder anderen Bezeichner."@de ;
+                          rdfs:label "has alternative label"@en ;
+                          skos:example "Die Sängerin \"Cherilyn Sarkisian\" (mvdko:Person) trägt den Kunstnamen (mvdko:hasAlternativeLabel) \"Cher\"."@de ,
+                                       "The singer \"Cherilyn Sarkisian\" (mvdko:person) has the pseudonym (mvdko:hasAlternativeLabel) \"Cher\"."@en ,
+                                       "Die Komödie (mvdko:CreativeConcept) \"Twelfth Night\" (mvdko:hasLabel) von \"Shakespeare\" (mvdko:hasContributor) trägt das alternative Label \"What You Will\" (mvdko:hasAlternativeLabel)."@de ;
+                          skos:definition "Links an entity to an alternate or different label."@en ;
+                          rdfs:label "hat alternatives Label"@de ;
+                          skos:scopeNote "Entitäten können unter anderem Akteur*innen und Kreative Konzepte sein."@de .
 
 
-:hasCreator rdfs:label "hat Schöpfer*in"@de ,
-                       "has Creator"@en .
+mvdko:hasAlternativeTitle skos:definition "Links an entity to another or different title."@en ;
+                          rdfs:comment "Includes also translations of a title that are not identified. Identified translations of titles are to be specified as a language variant of the title."@en ;
+                          skos:example "The comedy (mvdko:CreativeConcept) \"Twelfth Night\" (mvdko:hasLabel) by \"Shakespeare\" (mvdko:hasContributor) has the alternative label \"What You Will\" (mvdko:hasAlternativeLabel)."@en ,
+                                       "Die Komödie (mvdko:CreativeConcept) \"Twelfth Night\" (mvdko:hasTitle) von \"Shakespeare\" (mvdko:hasCrontributor) trägt den alternativen Titel \"What You Will\" (mvdko:hasAlternativeTitle)."@de ;
+                          rdfs:label "hat alternativen Titel"@de ;
+                          skos:scopeNote "Entitiäten können unter anderem Kreative Konzepte oder Medienressourcen sein."@de ;
+                          rdfs:comment "Umfasst auch nicht erkannte Übersetzungen eines Titels. Erkannte Übersetzungstitel sind als Sprachvariante des Titels zu bestimmen."@de ;
+                          skos:definition "Verbindet eine Entitäte mit einem weiteren oder anderen Titel."@de ;
+                          rdfs:label "has alternative title"@en ;
+                          skos:scopeNote "Entities can be Creative Concepts or Media Resources, among others."@en .
 
 
-:hasDate rdfs:label "has Date Information"@en ,
-                    "hat Datumsangabe"@de .
+mvdko:hasEncodingFormat rdfs:label "has encoding format"@en ;
+                        skos:example "The Media Carrier \"Martha_Graham_Dancer_Revealed.mp4\" (mvdko:MediaCarrier) is available in the Encoding Format (mvdko:hasEncodingFormat) \"h.264\"."@en ;
+                        skos:definition "Relates a Media Carrier to an Encoding Format."@en ;
+                        skos:example "Der Medienträger \"Martha_Graham_Dancer_Revealed.mp4\" (mvdko:MediaCarrier) liegt im Kodierungsformat (mvdko:hasEncodingFormat) \"h.264\" vor."@de ;
+                        skos:definition "Verbindet ein Kodierungsformat mit einem Medienträger."@de ;
+                        rdfs:label "hat Kodierungsformat"@de .
 
 
-:hasEvent rdfs:label "has corresponding Event"@en ,
-                     "hat zugehöriges Ereignis"@de .
+mvdko:hasFunction skos:definition "Beschreibt eine Mitwirkungsbeziehung durch Zuordnung einer bestimmten Art der Mitwirkung."@de ;
+                  rdfs:comment "This property is a meta- or reification-property for annotating other statements. The use of this relation requires the use of reification or RDF-Star to specify relations."@en ;
+                  skos:example "The performance \"To Do Or Not To Do\" by the collective \"Turbo Pascal\" featured the Contributors (mvdko:hasContributor) \"Friedrich Greiling\", \"Frank Oberhäußer\", \"Eva Plischke\" and \"Margret Schütz\" (mvdko:person) in the position of (mvdko:hasFunction) \"Performance\"."@en ;
+                  rdfs:comment "Diese Property ist eine Meta- bzw. Reification-Property zur Annotation von anderen Statements. Für die Verwendung dieser Relation ist der Einsatz von Reifikation oder RDF-Star zur Spezifizierung von Relationen erforderlich."@de ;
+                  rdfs:label "has function"@en ;
+                  skos:example "Die Mitwirkungsbeziehung (mvdko:hasContributor) zwischen \"Meg Stuart\" (mvdko:Person) und \"Violet\" (mvdko:CreativeConcept) ist genauer mit der Funktion (mvdko:hasFunction) \"Choreographie\" beschrieben."@de ;
+                  skos:definition "Describes a relationship of contribution by assigning it to a particular type of contribution."@en ;
+                  skos:example "The relationship of contribution (mvdko:hasContributor) between \"Meg Stuart\" (mvdko:Person) and \"Violet\" (mvdko:CreativeConcept) is described in more detail with the function (mvdko:hasFunction) \"Choreographie\"."@en ;
+                  rdfs:label "hat Funktion"@de ;
+                  skos:example "Die Performance \"To Do Or Not To Do\" des Kollektivs \"Turbo Pascal\" hatte die Mitwirkenden (mvdko:hasContributor) \"Friedrich Greiling\", \"Frank Oberhäußer\", \"Eva Plischke\" und \"Margret Schütz\" (mvdko:Person) in der Funktion (mvdko:hasFunction) \"Performance\"."@de .
 
 
-:hasIdentifier rdfs:label "hat Identifier"@de ,
-                          "has Identifier"@en .
+mvdko:hasKeyword skos:definition "Describes the assignment of a Keyword to an entity."@en ;
+                 skos:example "Die DVD \"Der Theatermacher\" (mvdko:MediaCarrier) hat das Schlagwort (mvdko:hasKeyword) \"Inszenierung\" im Katalog des \"Österreichischen Bibliothekenverbunds (OBV)\"."@de ;
+                 rdfs:label "hat Schlagwort"@de ;
+                 skos:example "The documentary \"Breath made visible\" (mvdko:MediaResource) has (mvdko:hasKeyword) the keyword \"DVD-Video\" (skos:Concept) in the online catalogue of the \"Verbund Öffentlicher Bibliotheken Berlins (VÖBB)\" ."@en ;
+                 skos:definition "Beschreibt die Zugeordnetheit eines Schlagworts zu einer Entität."@de ;
+                 skos:scopeNote "Keywords include for example subject terms, generic terms, places, persons. Keywords can be finitely structured (for example a library's keyword catalogue) or infinitely open."@en ;
+                 skos:example "The DVD \"Der Theatermacher\" (mvdko:MediaCarrier) has the keyword (mvdko:hasKeyword) \"Inszenierung\" in the catalogue of the \"Österreichischen Bibliothekenverbunds (OBV)\"."@en ;
+                 skos:scopeNote "Unter Schlagworte fallen zum Beispiel Sachbegriffe, Gattungsbegriffe, Orte, Personen. Schlagwörter können endlich strukturiert (zum Beispiel Schlagwortkatalog einer Bibliothek) oder unendlich offen sein."@de ;
+                 skos:example "Die Dokumentation \"Breath made visible\" (mvdko:MediaResource) hat (mvdko:hasKeyword) im Online-Katalog des \"Verbunds Öffentlicher Bibliotheken Berlins (VÖBB)\" das Schlagwort \"DVD-Video\"."@de ;
+                 rdfs:label "has keyword"@en .
 
 
-:hasKeyword rdfs:label "hat Schlagwort"@de ,
-                       "has Keyword"@en .
+mvdko:hasLanguage skos:definition "Describes the Language used in an entity such as a Media Resource, Creative Concept, or Event."@en ;
+                  skos:example "Der Mitschnitt von \"Faust\" (mvdko:MediaResource) von \"Einar Schleef\" ist (mvdko:hasLanguage) in \"Deutsch\"."@de ;
+                  skos:definition "Beschreibt die Sprache, die in einer Entität wie einer Medienressource, einem Kreativen Konzept oder einem Ereignis genutzt wird."@de ;
+                  skos:example "The recording of \"Faust\" (mvdko:MediaResource) of \"Einar Schleef\" is (mvdko:hasLanguage) in \"German\"."@en ,
+                               "The production of \"Violet\" (mvdko:CreativeConcept) by \"Meg Stuart\" is (mvdko:hasLanguage) in \"English\"."@en ,
+                               "Die Tragödie \"Hamlet\" (mvdko:CreativeConcept) von \"Shakespeare\" ist (mvdko:hasLanguage) in \"Englisch\"."@de ,
+                               "The tragedy \"Hamlet\" (mvdko:CreativeConcept) by \"Shakespeare\" is (mvdko:hasLanguage) in \"English\"."@en ;
+                  rdfs:label "has language"@en ;
+                  skos:scopeNote "Several languages can be used at the same time. A Media Resource, a Creative Concept or an Event can also be without Language. They can be real or fictitious languages."@en ;
+                  skos:example "Die Produktion \"Violet\" (mvdko:CreativeConcept) von \"Meg Stuart\" ist unter anderem (mvdko:hasLanguage) in \"Englisch\"."@de ;
+                  rdfs:comment "Sprachen sollten nach ISO-639-3 angegeben werden."@de ,
+                               "Languages should be specified according to ISO-639-3."@en ;
+                  rdfs:label "hat Sprache"@de ;
+                  skos:scopeNote "Mehrere Sprache können gleichzeitig genutzt werden. Eine Medienressource, ein Kreatives Konzept oder ein Ereignis kann auch ohne Sprache sein. Es kann sich um reale oder fiktive Sprachen handeln."@de .
 
 
-:hasLanguage rdfs:label "has Language"@en ,
-                        "hat Sprache"@de .
+mvdko:hasMediumRegionalCode skos:example "Die filmische Dokumentation  \"Martha Graham: The Dancer Revealed\" hat auf der DVD (mvdko:MediaCarrier) den Regionalcode \"9\". (mvdko:hasMediumRegionalCode)"^^xsd:string ;
+                            rdfs:label "has Regional Code (DVD) MW"@en ,
+                                       "hat Regionalcode (DVD)"@de ;
+                            skos:definition "Verbindet ein Regionalcode-Format mit einem Medienträger."^^xsd:string ;
+                            rdfs:comment "hasRegionalCode hier ausreichend?, MW" .
 
 
-:hasLocation rdfs:label "has Location"@en ,
-                        "hat Ort"@de .
+mvdko:hasMediumTelevisionStandard skos:comment "wird zu \"hasTelevisionStandard\""^^xsd:string ,
+                                               "genauer wäre \"hasAnalogueColorTelevisionStandard\" wenn Missverständnisse vermieden werden sollen"^^xsd:string ;
+                                  rdfs:label "hat TV-Standard"@de ;
+                                  rdfs:comment "hasTelevisionStandard hier ausreichend?, MW" ;
+                                  rdfs:label "has Television Standard MW"@en ;
+                                  skos:definition "Verbindet eine Aufzeichnung, die auf eine TV-Ausstrahlung zurückgeht, mit ihrem TV-Standard."@de ;
+                                  skos:example "RAUS: Die filmische Dokumentation \"Tanzt, tanzt, sonst sind wir verloren\" (mvdko:MediaRessource) hat den TV-Standard (mvdko:hasMediumTelevisionStandard) ULTRA HD."@de ,
+                                               "Die VHS mit der Signatur MCB-DV-4563 (mvdko:MediaCarrier) hat den TV Standard (mvdko:hasMediumRegionalCode) \"PAL\" (skos:Concept)."@de .
 
 
-:hasLocationOfPublication rdfs:label "has Location of Publication"@en ,
-                                     "hat Veröffentlichungsort"@de .
+mvdko:hasPublicationChannel skos:example "Die Dokumentation \"Durch die Nacht mit... Anne Imhof und Matthias Lilienthal\" (mvdko:MediaResource) wurde von dem Fernsehsender \"ARTE\" (mvdko:Organization) ausgestrahlt (mvdko:hasPublicationChannel)."@de ;
+                            rdfs:label "has publication channel"@en ;
+                            skos:example "The documentary \"Durch die Nacht mit... Anne Imhof und Matthias Lilienthal\" (mvdko:MediaResource) was broadcasted by (mvdko:hasPublicationChannel) the TV-Channel \"ARTE\" (mvdko:Organization)."@en ;
+                            skos:definition "Links a Media Resource with a Channel on which it is or was broadcasted, distributed or published."@en ,
+                                            "Verbindet eine Medienressource mit einem Sender oder Kanal, über den diese ausgestrahlt, verbreitet oder publiziert wird oder wurde."@de ;
+                            rdfs:label "hat Veröffentlichungskanal"@de .
 
 
-:hasMediaCarrier rdfs:label "hat Medienträger"@de ,
-                            "has Media Carrier"@en .
+mvdko:hasRegionalCode rdfs:comment "DVDs und Blu-ray Discs können mit einem Regionalcode versehen werden, um ihre Nutzung regional einzuschränken."@de ;
+                      rdfs:label "has regional code"@en ;
+                      skos:definition "Links a Media Carrier (DVD or Blu-ray Disc) with a regional code that its usage is restricted with."@en ;
+                      rdfs:comment "DVDs and Blu-ray Discs can include a regional code that restricts their usage regionally."@en ;
+                      skos:definition "Verbindet einen Medienträger (DVD oder Blu-ray Disc) mit einem Regionalcode-Format, durch das seine Nutzung eingeschränkt wird."@de ;
+                      skos:example "Der DVD-Medienträger (mvdko:MediaCarrier) der Medienressource \"Der diskrete Charme der Bourgeoisie\" (mvdko:MediaResource) ist eingeschränkt durch (mvdko:hasRegionalcode) den \"Regionalcode 2\"."@de ,
+                                   "The DVD Media Carrier (mvdko:MediaCarrier) of the Media Resource \"Der diskrete Charme der Bourgeoisie\" (mvdko:MediaResource) is restricted by (mvdko:hasRegionalCode) \"regional code 2\"."@en ;
+                      rdfs:label "hat Regionalcode"@de .
 
 
-:hasMedium rdfs:label "has Medium"@en ,
-                      "hat Medium"@de .
+mvdko:hasRightsHolder skos:example "Die Fotografie \"Studio des Pantomimentheater vom Prenzlauer Berg\" (mvdko:MediaResource) hat den Rechteinhaber (mvdko:hasRightsHolder) \"Jürgen Hohmuth\" (mvdko:Person)."@de ;
+                      skos:definition "Links a Media Resource, Media Carrier or Creative Concept with a corresponding Rights Holder."@en ;
+                      skos:example "The photograph \"Studio of the Pantomimentheater vom Prenzlauer Berg\" (mvdko:MediaResource) has the Rights Holder (mvdko:hasRightsHolder) \"Jürgen Hohmuth\" (mvdko:Person)."@en ;
+                      rdfs:label "has rights holder"@en ;
+                      skos:scopeNote "Rights Holders can be individuals such as copyright holders. They can also be corporate bodies such as archives and media libraries."@en ;
+                      skos:definition "Verbindet eine Medienressource, einen Medienträger oder ein Kreatives Konzept mit einem*einer dazugehörigen Rechteinhaber*in."@de ;
+                      rdfs:label "hat Rechteinhaber*in"@de ;
+                      skos:example "The documentary \"Breath Made Visible\" (mvdko:MediaResource) about Anna Halprin has the Rights Holder (mvdko:hasRightsholder) \"ZAS Film AG\" (mvdko:Organization)."@en ;
+                      skos:scopeNote "Rechteinhaber*innen können Personen wie Urheber*innen sein. Es können auch Körperschaften wie Archive und Mediatheken sein."@de ;
+                      skos:example "Die Dokumentation \"Breath Made Visible\" (mvdko:MediaResource) über Anna Halprin hat den Rechteinhaber (mvdko:hasRightsholder) \"ZAS Film AG\" (mvdko:Organization)."@de .
 
 
-:hasMediumChannel rdfs:comment """vllt. besser hasDistributionChannel (hasChannel könnte sich auch auf Audioinformationen beziehen), MW
-
-hasAudioChannels/hasAudioChannelLayout und hasAudioTrack wären möglicherweise auch zu bedenken (wenn auch bisher nicht in Daten zu finden), MW""" ;
-                  rdfs:label "has Publication Channel"@en ,
-                             "hat Ausstrahlungskanal/Sender"@de .
-
-
-:hasMediumDate rdfs:comment "Als Subproperty von hasDate denkbar. MW" ,
-                            "Könnte diese Proeprty durch hasDate ersetzt werden?, MW" .
-
-
-:hasMediumEncoding rdfs:comment "hasEncoding hier ausreichend?, MW" ;
-                   rdfs:label "hat Encodierungsformat"@de ,
-                              "has Encoding Format"@en .
+mvdko:hasRole skos:example "\"André Meyer\" (mvdko:Person) plays (mvdko:hasRole) the \"Kapitän Horster\" in \"Ein Volksfeind\" (mvdko:CreativeConcept) at the \"Schauspiel Frankfurt\"."@en ;
+              rdfs:label "has role"@en ;
+              rdfs:comment "Diese Property ist eine Meta- bzw. Reification-Property zur Annotation von anderen Statements. Für die Verwendung dieser Relation ist der Einsatz von Reifikation oder RDF-Star zur Spezifizierung von Relationen erforderlich."@de ;
+              skos:definition "Verbindet eine Entität mit einer Schauspielrolle."@de ,
+                              "Links an entity to an acting Role."@en ;
+              skos:example "\"André Meyer\" (mvdko:Person) spielt (mvdko:hasRole) den \"Kapitän Horster\" in \"Ein Volksfeind\" (mvdko:CreativeConcept) am \"Schauspiel Frankfurt\" ."@de ,
+                           "Die Schauspielerin \"Stefanie Reinsperger\" (mvdko:Person) spielt (mvdko:hasRole) den \"Baal\" in \"Ersan Mondtags\" \"BAAL\" (mvdko:CreativeConcept)."@de ,
+                           "The actor \"Stefanie Reinsperger\" (mvdko:Person) plays (mvdko:hasRole) the \"Baal\" in \"Ersan Mondtags\" \"BAAL\" (mvdko:CreativeConcept) ."@en ;
+              rdfs:label "hat Rolle"@de ;
+              rdfs:comment "This property is a meta- or reification-property for annotating other statements. The use of this relation requires the use of reification or RDF-Star to specify relations."@en .
 
 
-:hasMediumRegionalCode rdfs:label "hat Regionalcode (DVD)"@de ;
-                       rdfs:comment "hasRegionalCode hier ausreichend?, MW" ;
-                       rdfs:label "has Regional Code (DVD)"@en .
+mvdko:hasTelevisionStandard skos:definition "Verbindet eine Aufzeichnung, die auf eine Fernsehausstrahlung zurückgeht, mit dem Verfahren, das zur Farbübertragung beim analogen Fernsehen genutzt wurde."@de ;
+                            rdfs:label "hat Fernsehnorm"@de ;
+                            skos:example "Die VHS-Kassette mit der Signatur MCB-DV-4563 (mvdko:MediaCarrier) hat die Fernsehnorm (mvdko:hasTelevisionStandard) \"PAL\"."@de ,
+                                         "The VHS-cassette with signature MCB-DV-4563 (mvdko:MediaCarrier) is using the Television Standard (mvdko:hasTelevisionStandard) \"PAL\"."@en ;
+                            rdfs:label "has television standard"@en ;
+                            skos:definition "Links a recording that was broadcasted on television with its analogue colour television standard (PAL, NTSC or SECAM)."@en .
 
 
-:hasMediumTelevisionStandard rdfs:label "hat TV-Standard"@de ,
-                                        "has Television Standard"@en ;
-                             rdfs:comment "hasTelevisionStandard hier ausreichend?, MW" .
-
-
-:hasPart rdfs:label "hat Teil"@de ,
-                    "has Part"@en .
-
-
-:hasPlaceOfOccurrence rdfs:label "has Place of Occurrence"@en ,
-                                 "hat Ereignisort"@de .
-
-
-:hasPlaceOfResidence rdfs:label "has Place of Residence"@en ,
-                                "hat Residenzort"@de .
-
-
-:hasRecordingOf rdfs:label "hat Aufzeichnung von"@de ,
-                           "has a Recording of"@en .
-
-
-:hasRights rdfs:label "hat Rechteangabe"@de ,
-                      "has rights information"@en .
-
-
-:hasRightsHolder rdfs:label "has rights holder"@en ,
-                            "hat Rechteinhaber*in"@de .
-
-
-:hasSource rdfs:label "hat Quelle"@de ,
-                      "has Source"@en .
-
-
-:hasSubject rdfs:label "has Subject"@en ,
-                       "hat Thema/Gegenstand"@de .
-
-
-:hasTemporalExtent rdfs:label "hat zeitlichen Umfang"@de ,
-                              "has temporal Extent"@en .
-
-
-:hasType rdfs:label "hat Typ"@de ,
-                    "has Type"@en .
-
-
-:hasVersion rdfs:label "hat Version"@de ,
-                       "has Version"@en .
-
-
-:isBasedOn rdfs:label "is Based on"@en ,
-                      "ist basiert auf"@de .
+mvdko:hasType rdfs:label "hat Typ"@de ;
+              skos:definition "Kategorisiert eine Entität genauer mit Hilfe eines (Vokabular-)Begriffs."@de ;
+              skos:example "\"Schwarzwasser\" (mvdko:CreativeConcept) in der Regie von \"Robert Borgmann\" kann genauer mit dem Typ (mvdko:hasType) \"Inszenierung\" beschrieben werden."@de ;
+              rdfs:label "has type"@en ;
+              skos:definition "Categorizes an entity further using a (vocabulary-)term."@en ;
+              skos:example "The event \"Mediatheken vernetzen II\" (mvdko:Event) has the type (mvdko:hasType) \"Workshop\"."@en ;
+              skos:scopeNote "Wird verwendet zur Kategorisierung von einfachen URI-Subjekten."@de ;
+              skos:example "\"Schwarzwasser\" (mvdko:CreativeConcept) directed by \"Robert Borgmann\" can be described more precisely with the type (mvdko:hasType) \"Inszenierung\"."@en ,
+                           "Das Ereignis \"Mediatheken vernetzen II\" (mvdko:Event) hat den Typ (mvdko:hasType) \"Workshop\"."@de ;
+              skos:scopeNote "Used to categorize simple URI-subjects."@en .
 
 
 ###  Generated by the OWL API (version 4.2.8.20170104-2310) https://github.com/owlcs/owlapi
